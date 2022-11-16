@@ -1,9 +1,9 @@
-To run client side application: 
+#To run client side application: 
 ```
 npm start
-'''
+```
 
-To run server side application:
+#To run server side application:
 ```
 node index.js
 ```
