@@ -10,7 +10,7 @@ export const Login = () => {
             console.log(userid);
         } */
     const register = () => {
-        Axios.post('http://localhost3001/register', {
+        Axios.post('http://localhost:3001/register', {
             username: useridReg,
             password: passwordReg
         }).then((response) => {
