@@ -45,4 +45,4 @@ app.post('/register', (req, res)=> {
         ); 
 });
 
-app.listen(`0.0.0.0:$PORT`);
+app.listen('0.0.0.0:$PORT');
