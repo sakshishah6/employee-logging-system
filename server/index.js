@@ -5,8 +5,8 @@ const dotenv = require("dotenv");
 
 dotenv.config({path: './.env'});
 
-
 const app = express();
+
 
 app.use(express.json());
 app.use(cors());
@@ -45,7 +45,4 @@ app.post('/register', (req, res)=> {
         ); 
 });
 
-
-app.listen(3001, () => {
-    console.log("running on port 3001")
-});
+app.listen(`0.0.0.0:$PORT`);
