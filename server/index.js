@@ -1,5 +1,5 @@
 const express = require("express")
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const cors = require("cors");
 const dotenv = require("dotenv");
 
@@ -16,6 +16,7 @@ app.get("/", (req,res) => {
     res.send("<h1>Hello there :)<h1>")
 });
 
+/*
 // Create connection 
 const db = mysql.createConnection({
     host: process.env.DATABASE_HOST,
@@ -24,6 +25,8 @@ const db = mysql.createConnection({
     database: process.env.DATABASE,
 
 });
+*/
+const db = mysql.createConnection(process.env.DATABASE_URL);
 
 // Connect
 db.connect((err) => {
@@ -33,6 +36,7 @@ db.connect((err) => {
     console.log('MySql Connected...');
 });
 
+/*
 app.post('/register', (req, res)=> {
 
     const username = req.body.username;
@@ -45,6 +49,6 @@ app.post('/register', (req, res)=> {
         }
         ); 
 });
-
+*/
 
 app.listen(process.env.PORT || PORT);
