@@ -7,6 +7,7 @@ dotenv.config({path: './.env'});
 
 const app = express();
 
+const PORT = 3002;
 
 app.use(express.json());
 app.use(cors());
@@ -45,4 +46,5 @@ app.post('/register', (req, res)=> {
         ); 
 });
 
-app.listen('0.0.0.0:$PORT');
+
+app.listen(process.env.PORT || PORT);
