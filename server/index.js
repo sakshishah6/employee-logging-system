@@ -11,10 +11,12 @@ const PORT = 3002;
 
 app.use(express.json());
 app.use(cors());
+
 // Test connection 
 app.get("/", (req,res) => {
     res.send("<h1>Hello there :)<h1>")
 });
+
 
 /*
 // Create connection 
@@ -34,6 +36,14 @@ db.connect((err) => {
         throw err;
     }
     console.log('MySql Connected...');
+});
+app.get("/employee", (req,res) => {
+    db.query(
+        "SELECT * FROM employee_time",
+        (err, result) => {
+            console.log(err);
+        }
+    );
 });
 
 /*
