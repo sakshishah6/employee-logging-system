@@ -37,13 +37,12 @@ db.connect((err) => {
     }
     console.log('MySql Connected...');
 });
-app.get("/employee", (req,res) => {
-    db.query(
-        "SELECT * FROM employee_time",
-        (err, result) => {
-            console.log(err);
-        }
-    );
+
+app.get("/api/employee", (req,res) => {
+    const sqlInsert = "SELECT * FROM employee_time;"
+    db.query(sqlInsert, (err,result) => {
+        res.send(result)
+    })
 });
 
 /*
