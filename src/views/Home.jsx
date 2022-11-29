@@ -28,8 +28,8 @@ export const Home = () => {
                 <div id="home-manager">
                     <h4>Managers</h4>
                     <p>
-                        <li>View past employee history</li>
-                        <li>Accept, Reject, or Modify breaks & shifts</li>
+                        <li>View past history of employees</li>
+                        <li>Accept, reject, or modify breaks & shifts</li>
                     </p>
                     <div id="b">
                         <Button id="man-dash-btn" variant="outline-light" onClick={navigateToManager} size="md">Go to Manager Dashboard</Button>
