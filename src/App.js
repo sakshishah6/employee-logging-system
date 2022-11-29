@@ -1,5 +1,6 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Home } from './views/Home';
 import { Login } from './views/Login';
 import { Manager } from './views/Manager';
 import { Employee } from './views/Employee';
@@ -14,7 +15,7 @@ import Navbar1 from "./components/Navbar";
 
 export default function App() {
   return (
-    <div className="home">
+    <div className="main">
       <div>
         <Navbar1 />
       </div>
@@ -23,6 +24,7 @@ export default function App() {
           <Routes>
             <Route path="/">
               <Route index element={<Login />} />
+              <Route path="home" element={<Home />} />
               <Route path="manager" element={<Manager />} />
               <Route path="employee" element={<Employee />} />
               <Route path="employee-history" element={<EmployeeHistory />} />
