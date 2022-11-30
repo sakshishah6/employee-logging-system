@@ -42,6 +42,7 @@ db.connect((err) => {
 app.get("/api/employee", (req,res) => {
     const sqlInsert = `SELECT * FROM employee_time`
     db.query(sqlInsert, (err,result) => {
+        if(err) throw err
         res.send(result)
     })
 });
@@ -52,7 +53,7 @@ app.get("/api/employee/status/update/*/*", (req,res) => {
     
     const statusVal = valuesArray[5];
     const userIdVal = valuesArray[6];
-
+    console.log(statusVal);
     const sqlUpdate = `UPDATE employee_time SET status='${statusVal}' WHERE userID=${userIdVal};`
     db.query(sqlUpdate, (err,result) => {
         if(err) throw err
@@ -110,13 +111,7 @@ app.get("/api/endShiftBreak/*", (req,res) => {
     endDateTime = endDateTime - (endDateTime.getTimezoneOffset() * 60000);
     var finalEndDateTime = new Date(endDateTime).toISOString().replace('T', ' ').replace('Z', '');
 
-    const sqlGet = `SELECT * FROM employee_time WHERE userID=${userIdVal} AND startTime IS NOT NULL AND endTime IS NULL;`
-
-    db.query(sqlGet, (err,result) => {
-        const startDateTime = result[0].startTime;
-        console.log(startDateTime);
-
-        const sqlUpdate = `UPDATE employee_time SET startTime=${startDateTime}, endTime=${endDateTime} WHERE userID=${userIdVal} and endTime IS NULL;`
+        const sqlUpdate = `UPDATE employee_time SET endTime='${finalEndDateTime}' WHERE userID=${userIdVal} and endTime IS NULL;`
 
         db.query(sqlUpdate, (err,result) => {
             if(err) throw err
@@ -124,6 +119,7 @@ app.get("/api/endShiftBreak/*", (req,res) => {
             res.send(result)
     })
 });
+
 
 
 
@@ -171,4 +167,4 @@ app.post('/register', (req, res)=> {
 //const sqlInsert = `DELETE FROM employee_time WHERE userID=${userId} AND startTime IS NOT NULL AND endTime IS NULL;`
 
 
-app.listen(process.env.PORT || PORT)})
+app.listen(process.env.PORT || PORT);
