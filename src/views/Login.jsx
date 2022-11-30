@@ -40,7 +40,7 @@ export const Login = () => {
     let navigate = useNavigate();
 
     const navigateToManager = () => {
-        let path = `/manager`;
+        let path = `/home`;
         navigate(path);
     };
 
