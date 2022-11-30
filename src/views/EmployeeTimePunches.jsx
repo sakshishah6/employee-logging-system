@@ -9,7 +9,7 @@ export const EmployeeTimePunches = () => {
     const [isShiftEnded, setShiftEnded] = useState(false)
     const [isBreakEnded, setBreakEnded] = useState(false)
 
-    const employeeID = 4;
+    const employeeID = 345123;
 
     useEffect(() => {
         fetch(`http://localhost:3002/api/endTimeNull/${employeeID}`).then(

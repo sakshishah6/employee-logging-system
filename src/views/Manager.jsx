@@ -8,14 +8,16 @@ export const Manager = () => {
     const [backendData, setBackendData] = useState([{}])
     //const [statusButtonsState, disableStatusButtons] = useState(true)
     var shown = true;
+    var managerId = 345123;
 
     useEffect(() => {
         if (shown) {
             shown = false;
-            fetch(`http://localhost:3002/api/employee`).then(
+            fetch(`http://localhost:3002/api/employee/manager/${managerId}`).then(
                 response => response.json()
             ).then(
                 data => {
+                    console.log(data)
                     setBackendData(data)
                 }
             )
@@ -97,7 +99,7 @@ export const Manager = () => {
         <div className="manager">
             <h1>Manager Dashboard</h1>
             <br></br>
-            <p><strong>Name: Steve Rogers</strong> </p>
+            <p><strong>Name: Steve</strong> </p>
             <p><strong>Manager ID: 345123</strong> </p>
             <p><strong>Current Date:</strong> {dt}</p>
             <br></br>

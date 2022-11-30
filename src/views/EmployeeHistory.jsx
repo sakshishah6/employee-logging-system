@@ -9,7 +9,7 @@ export const EmployeeHistory = () => {
     // get the userId
     const [backendData, setBackendData] = useState([{}])
     useEffect(() => {
-        fetch("http://localhost:3002/api/employeeSpecific/4").then(
+        fetch("http://localhost:3002/api/employeeSpecific/345123").then(
             response => response.json()
         ).then(
             data => {
@@ -38,7 +38,7 @@ export const EmployeeHistory = () => {
         <div className="employee">
             <h1>Employee Dashboard</h1>
             <br></br>
-            <p><strong>Name: Steve Rogers</strong> </p>
+            <p><strong>Name: Steve</strong> </p>
             <p><strong>Employee ID: 345123</strong> </p>
             <p><strong>Current Date:</strong> {dt}</p>
             <br></br>

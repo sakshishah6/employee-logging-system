@@ -22,7 +22,7 @@ export const EmployeeStartShift = () => {
     }, []);
 
     const employeeID = 345123;
-    const employeeName = "Steve Rogers";
+    const employeeName = "Steve";
     var checkCall = true;
 
     // need to make name and userID dynamic

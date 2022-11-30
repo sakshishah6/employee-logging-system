@@ -39,8 +39,11 @@ db.connect((err) => {
 });
 
 // Gets all the employees records, will be used for manager table
-app.get("/api/employee", (req,res) => {
-    const sqlInsert = `SELECT * FROM employee_time`
+app.get("/api/employee/manager/*", (req,res) => {
+    const valuesArray = req.originalUrl.split("/");
+    const userIdVal = valuesArray[4];
+
+    const sqlInsert = `SELECT * FROM employee_time where userID!=${userIdVal};`
     db.query(sqlInsert, (err,result) => {
         if(err) throw err
         res.send(result)
@@ -125,9 +128,11 @@ app.get("/api/endShiftBreak/*", (req,res) => {
 app.get("/api/employeeSpecific/*", (req,res) => {
     const valuesArray = req.originalUrl.split("/");
     const userId = valuesArray[3];
-     const sqlInsert = `SELECT * FROM employee_time WHERE userID=${userId};`
+    const sqlInsert = `SELECT * FROM employee_time WHERE userID=${userId};`
     // const sqlInsert = `DELETE FROM employee_time WHERE userID=${userId} AND startTime IS NOT NULL AND endTime IS NULL;`
     // const sqlInsert = `DELETE FROM employee_time WHERE username='Joe';`
+    // const sqlInsert = `DELETE FROM employee_time WHERE userID=${userId};`
+
 
     db.query(sqlInsert, (err,result) => {
         res.send(result)

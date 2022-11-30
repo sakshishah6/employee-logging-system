@@ -21,7 +21,7 @@ export const EmployeeEndBreak = () => {
     }, []);
 
     const employeeID = 345123;
-    const employeeName = "Steve Rogers";
+    const employeeName = "Steve";
 
     // need to make name and userID dynamic
     useEffect(() => {
