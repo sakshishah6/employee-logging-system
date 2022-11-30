@@ -16,7 +16,7 @@ export const Manager = () => {
                 setBackendData(data)
             }
         )
-    });
+    }, []);
 
     const userid = 4;
 
@@ -106,7 +106,11 @@ export const Manager = () => {
                     {
                         backendData && backendData.length > 0 && backendData.map((record, index) => {
                             const startTime = new Date(record.startTime);
-                            const endTime = new Date(record.endTime);
+                            if (record.endTime === null) {
+                                var endTime = "";
+                            } else {
+                                endTime = new Date(record.endTime);
+                            }
                             var hours = 0;
                             if (!endTime) {
                                 hours = 0;
@@ -119,8 +123,8 @@ export const Manager = () => {
                                 <tr key={index}>
                                     <td>{record.userID}</td>
                                     <td>{record.username}</td>
-                                    <td>{startTime.toLocaleString({}, { timeZone: "UTC" })}</td>
-                                    <td>{endTime.toLocaleString({}, { timeZone: "UTC" })}</td>
+                                    <td>{startTime.toLocaleString({}, { timeZone: "EST" })}</td>
+                                    <td>{endTime.toLocaleString({}, { timeZone: "EST" })}</td>
                                     <td>{hours}</td>
                                     <td>{record.type}</td>
                                     <td>{record.status}</td>

@@ -71,7 +71,7 @@ app.get("/api/employee/status/update/Modify/*/*", (req,res) => {
     const endTimeVal = valuesArray[8];
     const shiftTypeVal = valuesArray[9];
     
-    const sqlUpdate = `UPDATE employee_time SET status='${statusVal}', startTime=${startTimeVal}, endTime=${endTimeVal}, type=${shiftTypeVal} WHERE userID=${userIdVal};`
+    const sqlUpdate = `UPDATE employee_time SET status='${statusVal}', startTime=${startTimeVal}, endTime=${endTimeVal}, type='${shiftTypeVal}' WHERE userID=${userIdVal};`
 
     db.query(sqlUpdate, (err,result) => {
         if(err) throw err
@@ -108,7 +108,7 @@ app.get("/api/endShiftBreak/*", (req,res) => {
 
     var endDateTime = new Date();
     endDateTime = endDateTime - (endDateTime.getTimezoneOffset() * 60000);
-    var finalEndDateTime = new Date(endDateTime).toISOString().replace('T', ' ').replace('Z', '');
+    new Date(endDateTime).toISOString().replace('T', ' ').replace('Z', '');
 
     const sqlGet = `SELECT * FROM employee_time WHERE userID=${userIdVal} AND startTime IS NOT NULL AND endTime IS NULL;`
 
@@ -122,8 +122,9 @@ app.get("/api/endShiftBreak/*", (req,res) => {
             if(err) throw err
             console.log(result)
             res.send(result)
+        })
     })
-});
+})
 
 
 
@@ -171,4 +172,4 @@ app.post('/register', (req, res)=> {
 //const sqlInsert = `DELETE FROM employee_time WHERE userID=${userId} AND startTime IS NOT NULL AND endTime IS NULL;`
 
 
-app.listen(process.env.PORT || PORT)})
+app.listen(process.env.PORT || PORT);
