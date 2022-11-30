@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Axios from 'axios';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
+import { useNavigate } from "react-router-dom";
 import Navbar from 'react-bootstrap/Navbar';
 
 export const Login = () => {
@@ -36,48 +37,50 @@ export const Login = () => {
     };
 
 
+    let navigate = useNavigate();
+
+    const navigateToManager = () => {
+        let path = `/manager`;
+        navigate(path);
+    };
+
 
     return (
         <div id="auth-form-container">
             <p id="title">Welcome to TimeSheet </p>
-            <form id="login-form">
-                <label>User ID</label>
-                <input
-                    type="text"
-                    onChange={(e) => {
-                        setUserIdReg(e.target.value);
-                    }}
-                />
-                <label>Password</label>
-                <input
-                    type="text"
-                    onChange={(e) => {
-                        setPasswordReg(e.target.value);
-                    }} />
-                <label >Employee Type</label>
-                <input
-                    type="text"
-                    onChange={(e) => {
-                        setUserTypeReg(e.target.value);
-                    }}
-                />
-
-                <button onClick={register}>Register</button>
-
-            </form>
-
+            <div id="login-reg">
+                <form id="login-form">
+                    <label>User ID</label>
+                    <input
+                        type="text"
+                        onChange={(e) => {
+                            setUserIdReg(e.target.value);
+                        }}
+                    />
+                    <label>Password</label>
+                    <input
+                        type="text"
+                        onChange={(e) => {
+                            setPasswordReg(e.target.value);
+                        }} />
+                    <label >Employee Type</label>
+                    <input
+                        type="text"
+                        onChange={(e) => {
+                            setUserTypeReg(e.target.value);
+                        }}
+                    />
+                    <button id="register-btn" onClick={register}>Register</button>
+                </form>
+            
             <form id="login-form">
                 <label>User ID</label>
                 <input onChange={(e) => setUsername(e.target.value)} type="text" />
                 <label >Password</label>
                 <input onChange={(e) => setPassword(e.target.value)} type="text" />
+                <button id="login-btn" onClick={navigateToManager}>Login</button>
             </form>
-            <Container>
-                <Nav className="me-auto">
-                    <Nav.Link href="/manager">Login</Nav.Link>
-                </Nav>
-            </Container>
-
+            </div>
         </div>
 
     )

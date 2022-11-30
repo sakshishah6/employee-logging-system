@@ -82,7 +82,7 @@ body {
 .auth-form-container {
   display: flex;
   flex-direction: column;
-  margin: 6rem;
+  margin: 5rem;
   padding: 4rem;
   border: 0.2rem solid #FBFBFB;
   border-radius: 10px;
@@ -92,6 +92,11 @@ body {
   text-align: left;
   display: flex;
   flex-direction: column;
+  padding: 50px;
+}
+
+#login-reg {
+  display: flex;
 }
 
 label {
@@ -106,35 +111,35 @@ label {
   border-radius: 10px;
 }
 
-#login-btn {
+#login-btn, #register-btn {
   margin-top: 3rem;
   margin-bottom: 2rem;
   margin-left: 5em;
   margin-right: 5em;
   border: none;
   background-color: #FBFBFB;
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
   font-size: 18px;
   font-weight: bold;
   font-family: 'DM Sans', sans-serif;
+  width: 7rem;
 }
 
-#login-btn:hover {
+#login-btn:hover, #register-btn:hover {
   background: rgb(175, 175, 175);
 }
 
-#login-btn:active {
+#login-btn:active, #register-btn:active {
   transform: translateY(3px);
   box-shadow: 0 2px black;
 }
 
 p#title {
-  inline-size: 300px;
   color: white;
   font-size: 30px;
   text-align: center;
-  padding-bottom: 2rem;
+  padding: 2rem;
 }
 
 .employee,
