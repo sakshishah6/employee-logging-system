@@ -10,7 +10,7 @@ export const Login = () => {
         } */
 
     return (
-        <div id="auth-form-container">
+        <div className="auth-form-container">
             <p id="title">Login to TimeSheet</p>
             <form id="login-form">
                 <label htmlFor="userid">User ID</label>

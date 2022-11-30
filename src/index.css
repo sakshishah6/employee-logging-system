@@ -79,7 +79,7 @@ body {
   justify-content: center;
 }
 
-#auth-form-container {
+.auth-form-container {
   display: flex;
   flex-direction: column;
   margin: 6rem;
@@ -99,7 +99,7 @@ label {
   color: #FBFBFB;
 }
 
-input {
+.auth-form-container input {
   margin: 0.5rem 0;
   padding: 1rem;
   border: none;
@@ -143,6 +143,40 @@ p#title {
   min-height: 100vh;
   min-width: 100px;
   margin: 30px;
+}
+
+#modify-form {
+  display: flex;
+  direction: column;
+  padding: 5px;
+  visibility: hidden;
+}
+
+.manager input {
+  margin: 5px;
+  padding: 5px;
+  width: 200px;
+}
+
+.manager #select {
+  width: 200px;
+  height: 35px;
+  margin: 5px;
+  padding: 5px;
+}
+
+.manager #manager-label {
+  width: 100px;
+  height: 30px;
+}
+
+.manager #modify-btn {
+  width: 100px;
+  height: 35px;
+  margin: 15px;
+  padding: 4px;
+  margin-left: 105px;
+  border: none;
 }
 
 #emp {
