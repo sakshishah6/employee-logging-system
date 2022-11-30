@@ -158,8 +158,8 @@ p#title {
   width: 200px;
 }
 
-.manager #select {
-  width: 200px;
+.manager #shifttype {
+  min-width: 200px;
   height: 35px;
   margin: 5px;
   padding: 5px;

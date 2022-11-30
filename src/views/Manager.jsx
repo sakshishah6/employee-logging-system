@@ -16,54 +16,59 @@ export const Manager = () => {
                 setBackendData(data)
             }
         )
-    });
+    }, []);
 
-    const userid = 4;
-
-    const handleAccepted = () => {
+    const handleAccepted = (uniqueID) => {
         console.log("Accepted")
-        fetch(`http://localhost:3002/api/employee/status/update/Accepted/${userid}`).then(
+
+        fetch(`http://localhost:3002/api/employee/status/update/Accepted/${uniqueID}`).then(
             response => response.json()
         )
             .then(
                 data => {
                     setBackendData(data)
                     console.log(data)
-                }
+                },
+                window.location.reload()
             )
     }
 
-    const handleRejected = () => {
+    const handleRejected = (uniqueID) => {
         console.log("Rejected")
-        fetch(`http://localhost:3002/api/employee/status/update/Rejected/${userid}`).then(
+
+        fetch(`http://localhost:3002/api/employee/status/update/Rejected/${uniqueID}`).then(
             response => response.json()
         )
             .then(
                 data => {
                     setBackendData(data)
                     console.log(data)
-                }
+                },
+                window.location.reload()
             )
     }
 
-    const handleModify = () => {
+    function modifyForm(uniqueID) {
         document.getElementById("modify-form").style.visibility = "visible";
+        //handleModified(uniqueID)
     }
 
-    const modifyRecord = () => {
-        var starttime = document.getElementById("starttime").value;
-        var endtime = document.getElementById("endtime").value;
+    const handleModified = () => {
+        document.getElementById("modify-form").style.visibility = "visible";
+        var uniqueid = document.getElementById("uniqueid").value;
+        var starttime = document.getElementById("starttime").value.toLocaleString();
+        var endtime = document.getElementById("endtime").value.toLocaleString();
         var shifttype = document.getElementById("shifttype").value;
-        console.log(starttime);
         console.log("Modified")
-        fetch(`http://localhost:3002/api/employee/status/update/Modify/${userid}/${starttime}/${endtime}/${shifttype}`).then(
+        fetch(`http://localhost:3002/api/employee/status/update/Modified/${uniqueid}/${starttime}/${endtime}/${shifttype}`).then(
             response => response.json()
         )
             .then(
                 data => {
                     setBackendData(data)
                     console.log(data)
-                }
+                },
+                window.location.reload()
             )
     }
 
@@ -92,6 +97,7 @@ export const Manager = () => {
             <Table striped bordered hover variant="dark">
                 <thead>
                     <tr>
+                        <th>Record #</th>
                         <th>Employee Id</th>
                         <th>Name</th>
                         <th>Start Time</th>
@@ -109,7 +115,7 @@ export const Manager = () => {
                             if (record.endTime === null) {
                                 var endTime = "";
                             } else {
-                                var endTime = new Date(record.endTime);
+                                endTime = new Date(record.endTime);
                             }
                             var hours = 0;
                             if (!endTime) {
@@ -121,7 +127,8 @@ export const Manager = () => {
                             }
                             return (
                                 <tr key={index}>
-                                    <td>{record.userID}</td>
+                                    <td>{record.uniqueID}</td>
+                                    <td className="row-data">{record.userID}</td>
                                     <td>{record.username}</td>
                                     <td>{startTime.toLocaleString({}, { timeZone: "EST" })}</td>
                                     <td>{endTime.toLocaleString({}, { timeZone: "EST" })}</td>
@@ -129,9 +136,9 @@ export const Manager = () => {
                                     <td>{record.type}</td>
                                     <td>{record.status}</td>
                                     <td>
-                                        <Button variant="outline-success" onClick={handleAccepted}>Accept</Button>{' '}
-                                        <Button variant="outline-danger" onClick={handleRejected}>Reject</Button>{' '}
-                                        <Button variant="outline-primary" onClick={handleModify}>Modify</Button>
+                                        <Button variant="outline-success" onClick={() => handleAccepted(record.uniqueID)}>Accept</Button>{' '}
+                                        <Button variant="outline-danger" onClick={() => handleRejected(record.uniqueID)}>Reject</Button>{' '}
+                                        <Button variant="outline-primary" onClick={() => { modifyForm(record.uniqueID); }}>Modify</Button>
                                     </td>
                                 </tr>
                             );
@@ -141,6 +148,9 @@ export const Manager = () => {
             </Table>
             <div id="modify-form">
                 <form>
+                    <label id="manager-label"> Record #: </label>
+                    <input type="number" id="uniqueid"></input>
+                    <br></br>
                     <label id="manager-label"> Start Time: </label>
                     <input type="datetime-local" id="starttime"></input>
                     <br></br>
@@ -149,11 +159,11 @@ export const Manager = () => {
                     <br></br>
                     <label id="manager-label"> Shift Type: </label>
                     <select id="shifttype">
-                        <option value="work">Work</option>
-                        <option value="break">Break</option>
+                        <option value="Work">Work</option>
+                        <option value="Break">Break</option>
                     </select>
                     <br></br>
-                    <button id="modify-btn" onSubmit={modifyRecord}>Submit</button>
+                    <button id="modify-btn" onSubmit={handleModified}>Submit</button>
                 </form>
             </div>
             <div id="back">

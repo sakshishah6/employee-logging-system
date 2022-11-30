@@ -9,8 +9,6 @@ export const EmployeeTimePunches = () => {
     const [isShiftEnded, setShiftEnded] = useState(false)
     const [isBreakEnded, setBreakEnded] = useState(false)
 
-    const [backendData, setBackendData] = useState([{}])
-
     const employeeID = 4;
 
     useEffect(() => {

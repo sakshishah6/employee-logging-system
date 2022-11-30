@@ -52,9 +52,9 @@ app.get("/api/employee/status/update/*/*", (req,res) => {
     const valuesArray = req.originalUrl.split("/");
     
     const statusVal = valuesArray[5];
-    const userIdVal = valuesArray[6];
-    console.log(statusVal);
-    const sqlUpdate = `UPDATE employee_time SET status='${statusVal}' WHERE userID=${userIdVal};`
+    const uniqueIdVal = valuesArray[6];
+
+    const sqlUpdate = `UPDATE employee_time SET status='${statusVal}' WHERE uniqueID=${uniqueIdVal};`
     db.query(sqlUpdate, (err,result) => {
         if(err) throw err
         res.send(result)
@@ -63,17 +63,15 @@ app.get("/api/employee/status/update/*/*", (req,res) => {
 });
 
 //Modify record (manager view)
-app.get("/api/employee/status/update/Modify/*/*", (req,res) => {
+app.get("/api/employee/status/update/Modified/*/*/*/*", (req,res) => {
     const valuesArray = req.originalUrl.split("/");
-    
-    const statusVal = valuesArray[5];
-    const userIdVal = valuesArray[6];
+    const uniqueIdVal = valuesArray[6];
     const startTimeVal = valuesArray[7];
     const endTimeVal = valuesArray[8];
     const shiftTypeVal = valuesArray[9];
     
-    const sqlUpdate = `UPDATE employee_time SET status='${statusVal}', startTime=${startTimeVal}, endTime=${endTimeVal}, type=${shiftTypeVal} WHERE userID=${userIdVal};`
-
+    const sqlUpdate = `UPDATE employee_time SET status='Modified' WHERE uniqueID=${uniqueIdVal};`
+//, startTime='${startTimeVal}', endTime='${endTimeVal}', type='${shiftTypeVal}' 
     db.query(sqlUpdate, (err,result) => {
         if(err) throw err
         res.send(result)
@@ -94,7 +92,7 @@ app.get("/api/startShiftBreak/*/*/*", (req,res) => {
     startDateTime = startDateTime - (startDateTime.getTimezoneOffset() * 60000);
     var finalStartDateTime = new Date(startDateTime).toISOString().replace('T', ' ').replace('Z', '');
 
-    const sqlInsert = `INSERT INTO employee_time (userID, username, type,startTime, endTime, time, status) VALUES (${userIdVal}, '${usernameVal}', '${shiftTypeVal}','${finalStartDateTime}', null, 0, "Pending");`
+    const sqlInsert = `INSERT INTO employee_time (userID, username, type, startTime, endTime, time, status) VALUES (${userIdVal}, '${usernameVal}', '${shiftTypeVal}','${finalStartDateTime}', null, 0, "Pending");`
     db.query(sqlInsert, (err,result) => {
         console.log(err)
         res.send(result)
@@ -109,7 +107,7 @@ app.get("/api/endShiftBreak/*", (req,res) => {
 
     var endDateTime = new Date();
     endDateTime = endDateTime - (endDateTime.getTimezoneOffset() * 60000);
-    var finalEndDateTime = new Date(endDateTime).toISOString().replace('T', ' ').replace('Z', '');
+    new Date(endDateTime).toISOString().replace('T', ' ').replace('Z', '');
 
         const sqlUpdate = `UPDATE employee_time SET endTime='${finalEndDateTime}' WHERE userID=${userIdVal} and endTime IS NULL;`
 
@@ -117,8 +115,8 @@ app.get("/api/endShiftBreak/*", (req,res) => {
             if(err) throw err
             console.log(result)
             res.send(result)
-    })
-});
+        })
+    });
 
 
 
