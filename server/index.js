@@ -147,20 +147,21 @@ app.get("/api/endTimeNull/*", (req,res) => {
 
 
 
-/*
-app.post('/register', (req, res)=> {
+
+app.post('/api/register', (req, res)=> {
 
     const username = req.body.username;
     const password = req.body.password;
+    const usertype = req.body.usertype;
     db.query(
-        "INSERT INTO users (username, password) VALUES (?,?)", 
-        [username, password], 
+        "INSERT INTO user (username, password, usertype) VALUES (?,?,?)", 
+        [username, password,usertype], 
         (err, res) => {
         console.log(err) 
         }
         ); 
 });
-*/
+
 
 //const sqlInsert = `DELETE FROM employee_time WHERE userID=${userId} AND startTime IS NOT NULL AND endTime IS NULL;`
 
