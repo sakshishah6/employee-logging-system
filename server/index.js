@@ -107,7 +107,7 @@ app.get("/api/endShiftBreak/*", (req,res) => {
 
     var endDateTime = new Date();
     endDateTime = endDateTime - (endDateTime.getTimezoneOffset() * 60000);
-    new Date(endDateTime).toISOString().replace('T', ' ').replace('Z', '');
+    finalEndDateTime = new Date(endDateTime).toISOString().replace('T', ' ').replace('Z', '');
 
         const sqlUpdate = `UPDATE employee_time SET endTime='${finalEndDateTime}' WHERE userID=${userIdVal} and endTime IS NULL;`
 

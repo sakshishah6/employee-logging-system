@@ -38,8 +38,8 @@ export const EmployeeHistory = () => {
         <div className="employee">
             <h1>Employee Dashboard</h1>
             <br></br>
-            <p><strong>Name:</strong> </p>
-            <p><strong>Employee ID:</strong> </p>
+            <p><strong>Name: Steve Rogers</strong> </p>
+            <p><strong>Employee ID: 345123</strong> </p>
             <p><strong>Current Date:</strong> {dt}</p>
             <br></br>
             <div>

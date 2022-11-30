@@ -7,15 +7,19 @@ export const Manager = () => {
 
     const [backendData, setBackendData] = useState([{}])
     //const [statusButtonsState, disableStatusButtons] = useState(true)
+    var shown = true;
 
     useEffect(() => {
-        fetch(`http://localhost:3002/api/employee`).then(
-            response => response.json()
-        ).then(
-            data => {
-                setBackendData(data)
-            }
-        )
+        if (shown) {
+            shown = false;
+            fetch(`http://localhost:3002/api/employee`).then(
+                response => response.json()
+            ).then(
+                data => {
+                    setBackendData(data)
+                }
+            )
+        }
     }, []);
 
     const handleAccepted = (uniqueID) => {
@@ -53,23 +57,26 @@ export const Manager = () => {
         //handleModified(uniqueID)
     }
 
-    const handleModified = () => {
-        document.getElementById("modify-form").style.visibility = "visible";
-        var uniqueid = document.getElementById("uniqueid").value;
-        var starttime = document.getElementById("starttime").value.toLocaleString();
-        var endtime = document.getElementById("endtime").value.toLocaleString();
-        var shifttype = document.getElementById("shifttype").value;
-        console.log("Modified")
-        fetch(`http://localhost:3002/api/employee/status/update/Modified/${uniqueid}/${starttime}/${endtime}/${shifttype}`).then(
-            response => response.json()
-        )
-            .then(
-                data => {
-                    setBackendData(data)
-                    console.log(data)
-                },
-                window.location.reload()
-            )
+    const handleModified2 = () => {
+        console.log("Hello")
+
+        //document.getElementById("modify-form").style.visibility = "visible";
+        // var uniqueid = document.getElementById("uniqueid").value;
+        // var starttime = document.getElementById("starttime").value.toLocaleString();
+        // var endtime = document.getElementById("endtime").value.toLocaleString();
+        // var shifttype = document.getElementById("shifttype").value;
+        // console.log("Modified")
+        // console.log(uniqueid)
+        // console.log(endtime)
+        // console.log(shifttype)
+        // fetch(`http://localhost:3002/api/employee/status/update/Modified/${uniqueid}/${starttime}/${endtime}/${shifttype}`).then(
+        //     response => response.json()
+        // )
+        //     .then(
+        //         data => {
+        //             setBackendData(data)
+        //             console.log(data)
+        //         })
     }
 
     const [dt, setDt] = useState(new Date().toLocaleString());
@@ -90,8 +97,8 @@ export const Manager = () => {
         <div className="manager">
             <h1>Manager Dashboard</h1>
             <br></br>
-            <p><strong>Name:</strong> </p>
-            <p><strong>Manager ID:</strong> </p>
+            <p><strong>Name: Steve Rogers</strong> </p>
+            <p><strong>Manager ID: 345123</strong> </p>
             <p><strong>Current Date:</strong> {dt}</p>
             <br></br>
             <Table striped bordered hover variant="dark">
@@ -163,7 +170,7 @@ export const Manager = () => {
                         <option value="Break">Break</option>
                     </select>
                     <br></br>
-                    <button id="modify-btn" onSubmit={handleModified}>Submit</button>
+                    <button id="modify-btn" onClick={() => handleModified2}>Submit</button>
                 </form>
             </div>
             <div id="back">

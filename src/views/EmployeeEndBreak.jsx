@@ -20,8 +20,8 @@ export const EmployeeEndBreak = () => {
         return () => clearInterval(secTimer);
     }, []);
 
-    const employeeID = 4;
-    const employeeName = "MarkW";
+    const employeeID = 345123;
+    const employeeName = "Steve Rogers";
 
     // need to make name and userID dynamic
     useEffect(() => {

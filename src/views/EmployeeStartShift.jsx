@@ -21,8 +21,8 @@ export const EmployeeStartShift = () => {
         return () => clearInterval(secTimer);
     }, []);
 
-    const employeeID = 4;
-    const employeeName = "MarkW";
+    const employeeID = 345123;
+    const employeeName = "Steve Rogers";
     var checkCall = true;
 
     // need to make name and userID dynamic
