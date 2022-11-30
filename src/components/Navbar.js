@@ -5,10 +5,10 @@ import { React, useState, useEffect } from 'react';
 
 
 function Navbar1() {
-  const [homePage, setHomePage] = useState(true)
-  const [employeePage, setEmployeePage] = useState(true)
-  const [managerPage, setManagerPage] = useState(true)
-  const [logoutPage, setLogoutPage] = useState(true)
+  const [homePage, setHomePage] = useState(false)
+  const [employeePage, setEmployeePage] = useState(false)
+  const [managerPage, setManagerPage] = useState(false)
+  const [logoutPage, setLogoutPage] = useState(false)
 
 
   return (
