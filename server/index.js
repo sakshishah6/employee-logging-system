@@ -54,7 +54,11 @@ app.get("/api/startShiftBreak/*/*/*", (req,res) => {
     const usernameVal = valuesArray[4];
     const shiftTypeVal = valuesArray[5];
 
-    const sqlInsert = `INSERT INTO employee_time (userID, username, type, endTime, time, status) VALUES (${userIdVal}, '${usernameVal}', '${shiftTypeVal}', null, 0, "Accepted");`
+    var startDateTime = new Date();
+    startDateTime = startDateTime - (startDateTime.getTimezoneOffset() * 60000);
+    var finalStartDateTime = new Date(startDateTime).toISOString().replace('T', ' ').replace('Z', '');
+
+    const sqlInsert = `INSERT INTO employee_time (userID, username, type,startTime, endTime, time, status) VALUES (${userIdVal}, '${usernameVal}', '${shiftTypeVal}','${finalStartDateTime}', null, 0, "Pending");`
     db.query(sqlInsert, (err,result) => {
         console.log(err)
         res.send(result)
@@ -65,23 +69,17 @@ app.get("/api/startShiftBreak/*/*/*", (req,res) => {
 // When start shift or break pressed, updates record and ends shift
 app.get("/api/endShiftBreak/*", (req,res) => {
     const valuesArray = req.originalUrl.split("/");
-    console.log(valuesArray);
     const userIdVal = valuesArray[3];
-    const endDateTime = new Date();
 
-    const sqlGet = `SELECT * FROM employee_time WHERE userID=${userIdVal} AND startTime IS NOT NULL AND endTime IS NULL;`
+    var endDateTime = new Date();
+    endDateTime = endDateTime - (endDateTime.getTimezoneOffset() * 60000);
+    var finalEndDateTime = new Date(endDateTime).toISOString().replace('T', ' ').replace('Z', '');
 
-    db.query(sqlGet, (err,result) => {
-        const startDateTime = result[0].startTime;
-        console.log(startDateTime);
-
-        const sqlUpdate = `UPDATE employee_time SET startTime=${startDateTime},endTime=${endDateTime} WHERE userID=${userIdVal} and endTime IS NULL;`
+        const sqlUpdate = `UPDATE employee_time SET endTime='${finalEndDateTime}' WHERE userID=${userIdVal} and endTime IS NULL;`
         db.query(sqlUpdate, (err,result) => {
             if(err) throw err
             console.log(result)
-            
             res.send(result)
-        })
     })
 });
 
@@ -91,8 +89,9 @@ app.get("/api/endShiftBreak/*", (req,res) => {
 app.get("/api/employeeSpecific/*", (req,res) => {
     const valuesArray = req.originalUrl.split("/");
     userId = valuesArray[3];
-    const sqlInsert = `SELECT * FROM employee_time WHERE userID=${userId};`
-    //const sqlInsert = `DELETE FROM employee_time WHERE userID=${userId} AND startTime IS NOT NULL AND endTime IS NULL;`
+     const sqlInsert = `SELECT * FROM employee_time WHERE userID=${userId};`
+    // const sqlInsert = `DELETE FROM employee_time WHERE userID=${userId} AND startTime IS NOT NULL AND endTime IS NULL;`
+    // const sqlInsert = `DELETE FROM employee_time WHERE username='Joe';`
 
     db.query(sqlInsert, (err,result) => {
         res.send(result)

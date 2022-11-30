@@ -23,13 +23,15 @@ export const EmployeeStartShift = () => {
 
     const employeeID = 4;
     const employeeName = "MarkW";
+    var checkCall = true;
 
-    
     // need to make name and userID dynamic
 
     useEffect(() => {
-        console.log("Here")
-        fetch(`http://localhost:3002/api/startShiftBreak/${employeeID}/${employeeName}/Work`)
+        if (checkCall) {
+            fetch(`http://localhost:3002/api/startShiftBreak/${employeeID}/${employeeName}/Work`)
+            checkCall = false;
+        }
     }, [])
 
     return (
