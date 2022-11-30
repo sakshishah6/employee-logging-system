@@ -46,6 +46,41 @@ app.get("/api/employee", (req,res) => {
     })
 });
 
+// Updates the status of employee record (manager view)
+app.get("/api/employee/status/update/*/*", (req,res) => {
+    const valuesArray = req.originalUrl.split("/");
+    
+    const statusVal = valuesArray[5];
+    const userIdVal = valuesArray[6];
+
+    const sqlUpdate = `UPDATE employee_time SET status='${statusVal}' WHERE userID=${userIdVal};`
+    db.query(sqlUpdate, (err,result) => {
+        if(err) throw err
+        res.send(result)
+    })
+
+});
+
+//Modify record (manager view)
+app.get("/api/employee/status/update/Modify/*/*", (req,res) => {
+    const valuesArray = req.originalUrl.split("/");
+    
+    const statusVal = valuesArray[5];
+    const userIdVal = valuesArray[6];
+    const startTimeVal = valuesArray[7];
+    const endTimeVal = valuesArray[8];
+    const shiftTypeVal = valuesArray[9];
+    
+    const sqlUpdate = `UPDATE employee_time SET status='${statusVal}', startTime=${startTimeVal}, endTime=${endTimeVal}, type=${shiftTypeVal} WHERE userID=${userIdVal};`
+
+    db.query(sqlUpdate, (err,result) => {
+        if(err) throw err
+        res.send(result)
+    })
+
+});
+
+
 // When start shift or break pressed, creates a record
 app.get("/api/startShiftBreak/*/*/*", (req,res) => {
     const valuesArray = req.originalUrl.split("/");
@@ -75,7 +110,7 @@ app.get("/api/endShiftBreak/*", (req,res) => {
         const startDateTime = result[0].startTime;
         console.log(startDateTime);
 
-        const sqlUpdate = `UPDATE employee_time SET startTime=${startDateTime},endTime=${endDateTime} WHERE userID=${userIdVal} and endTime IS NULL;`
+        const sqlUpdate = `UPDATE employee_time SET startTime=${startDateTime}, endTime=${endDateTime} WHERE userID=${userIdVal} and endTime IS NULL;`
         db.query(sqlUpdate, (err,result) => {
             if(err) throw err
             console.log(result)
@@ -90,7 +125,7 @@ app.get("/api/endShiftBreak/*", (req,res) => {
 // Gets a specific employees records for employee dashboard
 app.get("/api/employeeSpecific/*", (req,res) => {
     const valuesArray = req.originalUrl.split("/");
-    userId = valuesArray[3];
+    const userId = valuesArray[3];
     const sqlInsert = `SELECT * FROM employee_time WHERE userID=${userId};`
     //const sqlInsert = `DELETE FROM employee_time WHERE userID=${userId} AND startTime IS NOT NULL AND endTime IS NULL;`
 

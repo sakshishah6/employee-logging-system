@@ -4,30 +4,67 @@ import { React, useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
 export const Manager = () => {
-
+    
     const [backendData, setBackendData] = useState([{}])
+    //const [statusButtonsState, disableStatusButtons] = useState(true)
+
     useEffect(() => {
-        fetch("https://employeehoursloggingsystem-production.up.railway.app/api/employee").then(
+        fetch(`http://localhost:3002/api/employee`).then(
             response => response.json()
         ).then(
             data => {
                 setBackendData(data)
             }
         )
-    }, [])
+    });
 
+    const userid = 4;
 
     const handleAccepted = () => {
         console.log("Accepted")
-        // api call and update
+        fetch(`http://localhost:3002/api/employee/status/update/Accepted/${userid}`).then(
+            response => response.json()
+        )
+        .then (
+            data => {
+                setBackendData(data)
+                console.log(data)
+            }
+        )
     }
 
     const handleRejected = () => {
         console.log("Rejected")
+        fetch(`http://localhost:3002/api/employee/status/update/Rejected/${userid}`).then(
+            response => response.json()
+        )
+        .then (
+            data => {
+                setBackendData(data)
+                console.log(data)
+            }
+        )
     }
 
     const handleModify = () => {
+        document.getElementById("modify-form").style.visibility = "visible";
+    }
+
+    const modifyRecord = () => {
+        var starttime = document.getElementById("starttime").value;
+        var endtime = document.getElementById("endtime").value;
+        var shifttype = document.getElementById("shifttype").value;
+        console.log(starttime);
         console.log("Modified")
+        fetch(`http://localhost:3002/api/employee/status/update/Modify/${userid}/${starttime}/${endtime}/${shifttype}`).then(
+            response => response.json()
+        )
+        .then (
+            data => {
+                setBackendData(data)
+                console.log(data)
+            }
+        )
     }
 
     const [dt, setDt] = useState(new Date().toLocaleString());
@@ -59,27 +96,62 @@ export const Manager = () => {
                         <th>Name</th>
                         <th>Start Time</th>
                         <th>End Time</th>
-                        <th>Time (H)</th>
+                        <th>Duration (H)</th>
                         <th>Shift Type</th>
-                        <th>Date (yyyy-mm-dd)</th>
                         <th>Status</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Mark</td>
-                        <td>2:00</td>
-                        <td>10:00</td>
-                        <td>8</td>
-                        <td>Work</td>
-                        <td>12/10/2022</td>
-                        <td><Button variant="outline-success" onClick={handleAccepted}>Accept</Button>{' '}
-                            <Button variant="outline-danger" onClick={handleRejected}>Reject</Button>{' '}
-                            <Button variant="outline-primary" onClick={handleModify}>Modify</Button></td>
-                    </tr>
+                    {
+                        backendData && backendData.length > 0 && backendData.map((record, index) => {
+                            const startTime = new Date(record.startTime);
+                            const endTime = new Date(record.endTime);
+                            var hours = 0;
+                            if (!endTime) {
+                                hours = 0;
+                            } else {
+                                hours = (endTime - startTime) / 1000;
+                                hours /= (60 * 60)
+                                hours = hours.toFixed(2);
+                            }
+                            return (
+                                <tr key={index}>
+                                    <td>{record.userID}</td>
+                                    <td>{record.username}</td>
+                                    <td>{startTime.toLocaleString({}, { timeZone: "UTC" })}</td>
+                                    <td>{endTime.toLocaleString({}, { timeZone: "UTC" })}</td>
+                                    <td>{hours}</td>
+                                    <td>{record.type}</td>
+                                    <td>{record.status}</td>
+                                    <td>
+                                        <Button variant="outline-success" onClick={handleAccepted}>Accept</Button>{' '}
+                                        <Button variant="outline-danger" onClick={handleRejected}>Reject</Button>{' '}
+                                        <Button variant="outline-primary" onClick={handleModify}>Modify</Button>
+                                    </td>
+                                </tr>
+                            );
+                        })
+                    }
                 </tbody>
             </Table>
+            <div id="modify-form">
+                <form>
+                    <label id="manager-label"> Start Time: </label> 
+                    <input type="datetime-local" id="starttime"></input>
+                    <br></br>
+                    <label id="manager-label"> End Time: </label> 
+                    <input type="datetime-local" id="endtime"></input>
+                    <br></br>
+                    <label id="manager-label"> Shift Type: </label> 
+                    <select id="shifttype">
+                        <option value="work">Work</option>
+                        <option value="break">Break</option>
+                    </select>
+                    <br></br>
+                    <button id="modify-btn" onSubmit={modifyRecord}>Submit</button>
+              </form>
+            </div>
             <div id="back">
                 <Button id="logout-btn" variant="light" onClick={navigateToLogoutPage} size="sm">Logout</Button>
             </div>
