@@ -5,6 +5,20 @@ import { useNavigate } from "react-router-dom";
 import { React, useState, useEffect } from 'react';
 
 export const EmployeeHistory = () => {
+
+    // get the userId
+    const [backendData, setBackendData] = useState([{}])
+    useEffect(() => {
+        fetch("http://localhost:3002/api/employeeSpecific/4").then(
+            response => response.json()
+        ).then(
+            data => {
+                console.log(data)
+                setBackendData(data)
+            }
+        )
+    }, [])
+
     const [dt, setDt] = useState(new Date().toLocaleString());
     useEffect(() => {
         let secTimer = setInterval(() => {
@@ -16,8 +30,8 @@ export const EmployeeHistory = () => {
     const navigateBack = () => {
         navigate(-1);
     };
-    const navigateToLogoutPage = () => { 
-        let path = `/logout`; 
+    const navigateToLogoutPage = () => {
+        let path = `/logout`;
         navigate(path);
     };
     return (
@@ -38,21 +52,37 @@ export const EmployeeHistory = () => {
                             <th>End Time</th>
                             <th>Time (H)</th>
                             <th>Shift Type</th>
-                            <th>Date</th>
                             <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Mark Smith</td>
-                            <td>2:00</td>
-                            <td>10:00</td>
-                            <td>8.5</td>
-                            <td>Work</td>
-                            <td>21/11/2022</td>
-                            <td>Accepted</td>
-                        </tr>
+                        {
+                            //'2022-11-29T11:26:59.000Z'
+                            backendData && backendData.length > 0 && backendData.map((record, index) => {
+                                const startTime = new Date(record.startTime);
+                                const endTime = new Date(record.endTime);
+                                var hours = 0;
+                                if (!endTime) {
+                                    hours = 0;
+                                } else {
+                                    hours = (endTime - startTime) / 1000;
+                                    hours /= (60 * 60)
+                                    hours = hours.toFixed(2);
+                                }
+
+                                return (
+                                    <tr key={index}>
+                                        <td>{record.userID}</td>
+                                        <td>{record.username}</td>
+                                        <td>{startTime.toLocaleString({}, { timeZone: "UTC" })}</td>
+                                        <td>{endTime.toLocaleString({}, { timeZone: "UTC" })}</td>
+                                        <td>{hours}</td>
+                                        <td>{record.type}</td>
+                                        <td>{record.status}</td>
+                                    </tr>
+                                );
+                            })
+                        }
                     </tbody>
                 </Table>
             </div>

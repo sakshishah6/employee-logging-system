@@ -103,6 +103,15 @@ p#title {
   width: 9rem;
 }
 
+#btn1,
+#btn2,
+#btn3,
+#btn4 {
+  padding: 20px;
+  margin: 20px;
+  width: 9rem;
+}
+
 #trivial {
   font-size: 15px;
   text-align: left;
@@ -124,13 +133,13 @@ p#title {
 #detail-start {
   font-size: large;
   font-weight: 600;
-  color:rgb(47, 255, 68);
+  color: rgb(47, 255, 68);
 }
 
 #detail-end {
   font-size: large;
   font-weight: 600;
-  color:rgb(255, 106, 47);
+  color: rgb(255, 106, 47);
 }
 
 #datetime-start {

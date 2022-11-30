@@ -1,24 +1,33 @@
-import  React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from "react-router-dom";
 
 export const EmployeeEndShift = () => {
     let navigate = useNavigate();
-    const navigateBack = () => { 
+    const navigateBack = () => {
         navigate(-1);
     };
-    const navigateToLogoutPage = () => { 
-        let path = `/logout`; 
+    const navigateToLogoutPage = () => {
+        let path = `/logout`;
         navigate(path);
     };
     var [curTime] = useState(new Date());
     const [dt, setDt] = useState(new Date().toLocaleString());
     useEffect(() => {
-        let secTimer = setInterval( () => {
-          setDt(new Date().toLocaleString())
-        },1000)
+        let secTimer = setInterval(() => {
+            setDt(new Date().toLocaleString())
+        }, 1000)
         return () => clearInterval(secTimer);
     }, []);
+
+    const employeeID = 4;
+    const employeeName = "MarkW";
+
+    // need to make name and userID dynamic
+    useEffect(() => {
+        fetch(`http://localhost:3002/api/endShiftBreak/${employeeID}/${employeeName}/Work`)
+    }, [])
+
     return (
         <div className="employee">
             <h1>Employee Dashboard</h1>

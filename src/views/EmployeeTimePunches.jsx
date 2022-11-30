@@ -3,35 +3,71 @@ import { React, useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 
 export const EmployeeTimePunches = () => {
+    // call db and based on that render this
+    const [isShiftStarted, setShiftStarted] = useState(false)
+    const [isBreakStarted, setBreakStarted] = useState(false)
+    const [isShiftEnded, setShiftEnded] = useState(false)
+    const [isBreakEnded, setBreakEnded] = useState(false)
+
+    const [backendData, setBackendData] = useState([{}])
+
+    const employeeID = 4;
+
+    useEffect(() => {
+        fetch(`http://localhost:3002/api/endTimeNull/${employeeID}`).then(
+            response => response.json()
+        ).then(
+            data => {
+                if (JSON.stringify(data) === '[]') {
+                    setShiftStarted(false)
+                    setBreakStarted(false)
+                    setShiftEnded(true)
+                    setBreakEnded(true)
+                } else {
+                    // check if it is work or break
+                    setBreakStarted(true)
+                    setShiftStarted(true)
+
+                    if (data[0].type === "Work") {
+                        setBreakEnded(true)
+                    } else {
+                        setShiftEnded(true)
+                    }
+                }
+            }
+        )
+    }, [])
+
     const [dt, setDt] = useState(new Date().toLocaleString());
     useEffect(() => {
-        let secTimer = setInterval( () => {
-          setDt(new Date().toLocaleString())
-        },1000)
+        let secTimer = setInterval(() => {
+            setDt(new Date().toLocaleString())
+        }, 1000)
         return () => clearInterval(secTimer);
     }, []);
     let navigate = useNavigate();
-    const navigateToStartShift = () => { 
-        let path = `/employee-start-shift`; 
+
+    const navigateToStartShift = () => {
+        let path = `/employee-start-shift`;
         navigate(path);
     };
-    const navigateToEndShift = () => { 
-        let path = `/employee-end-shift`; 
+    const navigateToEndShift = () => {
+        let path = `/employee-end-shift`;
         navigate(path);
     };
-    const navigateToStartBreak = () => { 
-        let path = `/employee-start-break`; 
+    const navigateToStartBreak = () => {
+        let path = `/employee-start-break`;
         navigate(path);
     };
-    const navigateToEndBreak = () => { 
-        let path = `/employee-end-break`; 
+    const navigateToEndBreak = () => {
+        let path = `/employee-end-break`;
         navigate(path);
     };
-    const navigateBack = () => { 
+    const navigateBack = () => {
         navigate(-1);
     };
-    const navigateToLogoutPage = () => { 
-        let path = `/logout`; 
+    const navigateToLogoutPage = () => {
+        let path = `/logout`;
         navigate(path);
     };
     return (
@@ -46,13 +82,13 @@ export const EmployeeTimePunches = () => {
                 <p>What would you like to do?</p>
                 <div id="c-main">
                     <div id="c1">
-                        <Button id="emp-btn" variant="outline-light" onClick={navigateToStartShift} size="lg" >Start Shift</Button>
-                        <Button id="emp-btn" variant="outline-light" onClick={navigateToEndShift} size="lg" >End Shift</Button>
+                        <Button id="btn1" variant="outline-light" onClick={navigateToStartShift} disabled={isShiftStarted} size="lg" >Start Shift</Button>
+                        <Button id="btn2" variant="outline-light" onClick={navigateToEndShift} disabled={isShiftEnded} size="lg" >End Shift</Button>
                     </div>
                     <div class="vr"></div>
                     <div id="c3">
-                        <Button id="emp-btn" variant="outline-light" onClick={navigateToStartBreak} size="lg" >Start Break</Button>
-                        <Button id="emp-btn" variant="outline-light" onClick={navigateToEndBreak} size="lg" >End Break</Button>
+                        <Button id="btn3" variant="outline-light" onClick={navigateToStartBreak} disabled={isBreakStarted} size="lg" >Start Break</Button>
+                        <Button id="btn4" variant="outline-light" onClick={navigateToEndBreak} disabled={isBreakEnded} size="lg" >End Break</Button>
                     </div>
                 </div>
             </div>

@@ -38,12 +38,83 @@ db.connect((err) => {
     console.log('MySql Connected...');
 });
 
+
+
+
+
+
+// Gets all the employees records, will be used for manager table
 app.get("/api/employee", (req,res) => {
-    const sqlInsert = "SELECT * FROM employee_time;"
+    const sqlInsert = `SELECT * FROM employee_time`
     db.query(sqlInsert, (err,result) => {
         res.send(result)
     })
 });
+
+// When start shift or break pressed, creates a record
+app.get("/api/startShiftBreak/*/*/*", (req,res) => {
+    const valuesArray = req.originalUrl.split("/");
+
+    const userIdVal = valuesArray[3];
+    const usernameVal = valuesArray[4];
+    const shiftTypeVal = valuesArray[5];
+
+    const sqlInsert = `INSERT INTO employee_time (userID, username, type, endTime, time, status) VALUES (${userIdVal}, '${usernameVal}', '${shiftTypeVal}', null, 0, "Accepted");`
+    db.query(sqlInsert, (err,result) => {
+        console.log(err)
+        res.send(result)
+    })
+});
+
+
+// When start shift or break pressed, updates record and ends shift
+app.get("/api/endShiftBreak/*", (req,res) => {
+    const valuesArray = req.originalUrl.split("/");
+    console.log(valuesArray);
+    const userIdVal = valuesArray[3];
+    const endDateTime = new Date();
+    console
+
+    const sqlGet = `SELECT * FROM employee_time WHERE userID=${userIdVal} AND startTime IS NOT NULL AND endTime IS NULL;`
+
+    db.query(sqlGet, (err,result) => {
+        const startDateTime = result[0].startTime;
+        //startTime='${startDateTime}',endTime='${endDateTime}'
+        const sqlUpdate = `UPDATE employee_time SET startTime='${startDateTime}',endTime='${endDateTime}' WHERE userID=${userIdVal} and endTime IS NULL;`
+        db.query(sqlUpdate, (err,result) => {
+            console.log(result)
+            
+            res.send(result)
+        })
+    })
+});
+
+
+
+// Gets a specific employees records for employee dashboard
+app.get("/api/employeeSpecific/*", (req,res) => {
+    const valuesArray = req.originalUrl.split("/");
+    userId = valuesArray[3];
+    const sqlInsert = `SELECT * FROM employee_time WHERE userID=${userId};`
+    //const sqlInsert = `DELETE FROM employee_time WHERE userID=${userId} AND startTime IS NOT NULL AND endTime IS NULL;`
+
+    db.query(sqlInsert, (err,result) => {
+        res.send(result)
+    })
+});
+
+// For time punches, checks data to see which buttons to disable
+app.get("/api/endTimeNull/*", (req,res) => {
+    const valuesArray = req.originalUrl.split("/");
+    const userId = valuesArray[3];
+
+    const sqlInsert = `SELECT * FROM employee_time WHERE userID=${userId} AND startTime IS NOT NULL AND endTime IS NULL;`
+    db.query(sqlInsert, (err,result) => {
+        res.send(result)
+    })
+});
+
+
 
 /*
 app.post('/register', (req, res)=> {
@@ -59,5 +130,8 @@ app.post('/register', (req, res)=> {
         ); 
 });
 */
+
+//const sqlInsert = `DELETE FROM employee_time WHERE userID=${userId} AND startTime IS NOT NULL AND endTime IS NULL;`
+
 
 app.listen(process.env.PORT || PORT);

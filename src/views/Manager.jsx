@@ -5,6 +5,18 @@ import { useNavigate } from "react-router-dom";
 
 export const Manager = () => {
 
+    const [backendData, setBackendData] = useState([{}])
+    useEffect(() => {
+        fetch("https://employeehoursloggingsystem-production.up.railway.app/api/employee").then(
+            response => response.json()
+        ).then(
+            data => {
+                setBackendData(data)
+            }
+        )
+    }, [])
+
+
     const handleAccepted = () => {
         console.log("Accepted")
     }
@@ -26,8 +38,8 @@ export const Manager = () => {
     }, []);
 
     let navigate = useNavigate();
-    const navigateToLogoutPage = () => { 
-        let path = `/logout`; 
+    const navigateToLogoutPage = () => {
+        let path = `/logout`;
         navigate(path);
     };
 

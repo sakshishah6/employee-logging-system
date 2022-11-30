@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export const EmployeeStartBreak = () => {
     let navigate = useNavigate();
+
     const navigateBack = () => { 
         navigate(-1);
     };
