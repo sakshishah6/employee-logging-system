@@ -19,6 +19,7 @@ export const Manager = () => {
 
     const handleAccepted = () => {
         console.log("Accepted")
+        // api call and update
     }
 
     const handleRejected = () => {

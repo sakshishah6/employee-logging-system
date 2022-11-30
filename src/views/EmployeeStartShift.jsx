@@ -3,9 +3,6 @@ import Button from 'react-bootstrap/Button';
 import { useNavigate } from "react-router-dom";
 
 export const EmployeeStartShift = () => {
-
-
-
     let navigate = useNavigate();
     const navigateBack = () => {
         navigate(-1);

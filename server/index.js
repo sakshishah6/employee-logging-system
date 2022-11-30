@@ -38,11 +38,6 @@ db.connect((err) => {
     console.log('MySql Connected...');
 });
 
-
-
-
-
-
 // Gets all the employees records, will be used for manager table
 app.get("/api/employee", (req,res) => {
     const sqlInsert = `SELECT * FROM employee_time`
@@ -73,15 +68,16 @@ app.get("/api/endShiftBreak/*", (req,res) => {
     console.log(valuesArray);
     const userIdVal = valuesArray[3];
     const endDateTime = new Date();
-    console
 
     const sqlGet = `SELECT * FROM employee_time WHERE userID=${userIdVal} AND startTime IS NOT NULL AND endTime IS NULL;`
 
     db.query(sqlGet, (err,result) => {
         const startDateTime = result[0].startTime;
-        //startTime='${startDateTime}',endTime='${endDateTime}'
-        const sqlUpdate = `UPDATE employee_time SET startTime='${startDateTime}',endTime='${endDateTime}' WHERE userID=${userIdVal} and endTime IS NULL;`
+        console.log(startDateTime);
+
+        const sqlUpdate = `UPDATE employee_time SET startTime=${startDateTime},endTime=${endDateTime} WHERE userID=${userIdVal} and endTime IS NULL;`
         db.query(sqlUpdate, (err,result) => {
+            if(err) throw err
             console.log(result)
             
             res.send(result)
