@@ -24,7 +24,7 @@ export const Login = () => {
         });
     };
 
-    
+
     const login = () => {
         Axios.post('http://localhost:3002/api/login', {
             username: username,
@@ -39,44 +39,44 @@ export const Login = () => {
 
     return (
         <div id="auth-form-container">
-            <p id="title">Welcome to the Employee Time Management System </p>
+            <p id="title">Welcome to TimeSheet </p>
             <form id="login-form">
                 <label>User ID</label>
-                <input 
+                <input
                     type="text"
                     onChange={(e) => {
                         setUserIdReg(e.target.value);
                     }}
-                 />
+                />
                 <label>Password</label>
-                <input 
+                <input
                     type="text"
                     onChange={(e) => {
                         setPasswordReg(e.target.value);
                     }} />
                 <label >Employee Type</label>
-                <input 
+                <input
                     type="text"
                     onChange={(e) => {
                         setUserTypeReg(e.target.value);
                     }}
-                 />
+                />
 
                 <button onClick={register}>Register</button>
-                
+
             </form>
-            
-        <form id="login-form">
+
+            <form id="login-form">
                 <label>User ID</label>
-                <input  onChange={(e) => setUsername(e.target.value)} type="text"  />
+                <input onChange={(e) => setUsername(e.target.value)} type="text" />
                 <label >Password</label>
-                <input onChange={(e) => setPassword(e.target.value)} type="text"  />
-         </form>
-         <Container>
-          <Nav className="me-auto">
-            <Nav.Link href="/manager">Login</Nav.Link>
-          </Nav>
-        </Container>
+                <input onChange={(e) => setPassword(e.target.value)} type="text" />
+            </form>
+            <Container>
+                <Nav className="me-auto">
+                    <Nav.Link href="/manager">Login</Nav.Link>
+                </Nav>
+            </Container>
 
         </div>
 

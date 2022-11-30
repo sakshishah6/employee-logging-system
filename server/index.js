@@ -128,7 +128,7 @@ app.get("/api/endShiftBreak/*", (req,res) => {
 app.get("/api/employeeSpecific/*", (req,res) => {
     const valuesArray = req.originalUrl.split("/");
     const userId = valuesArray[3];
-    const sqlInsert = `SELECT * FROM employee_time WHERE userID=${userId};`
+     const sqlInsert = `SELECT * FROM employee_time WHERE userID=${userId};`
     // const sqlInsert = `DELETE FROM employee_time WHERE userID=${userId} AND startTime IS NOT NULL AND endTime IS NULL;`
     // const sqlInsert = `DELETE FROM employee_time WHERE username='Joe';`
     // const sqlInsert = `DELETE FROM employee_time WHERE userID=${userId};`
