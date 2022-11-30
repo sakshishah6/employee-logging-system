@@ -2,7 +2,6 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import { React, useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import $ from "jquery";
 
 export const Manager = () => {
     
@@ -49,16 +48,19 @@ export const Manager = () => {
         )
     }
 
-    const handleModify = () => {
+    function modifyForm(uniqueID) {
         document.getElementById("modify-form").style.visibility = "visible";
+        //handleModified(uniqueID)
     }
 
-    const modifyRecord = (uniqueID) => {
-        var starttime = document.getElementById("starttime").value;
-        var endtime = document.getElementById("endtime").value;
+    const handleModified = () => {
+        document.getElementById("modify-form").style.visibility = "visible";
+        var uniqueid = document.getElementById("uniqueid").value;
+        var starttime = document.getElementById("starttime").value.toLocaleString();
+        var endtime = document.getElementById("endtime").value.toLocaleString();
         var shifttype = document.getElementById("shifttype").value;
         console.log("Modified")
-        fetch(`http://localhost:3002/api/employee/status/update/Modified/${uniqueID}/${starttime}/${endtime}/${shifttype}`).then(
+        fetch(`http://localhost:3002/api/employee/status/update/Modified/${uniqueid}/${starttime}/${endtime}/${shifttype}`).then(
             response => response.json()
         )
         .then (
@@ -66,7 +68,7 @@ export const Manager = () => {
                 setBackendData(data)
                 console.log(data)
             },
-            //window.location.reload()
+            window.location.reload()
         )
     }
 
@@ -95,7 +97,7 @@ export const Manager = () => {
             <Table striped bordered hover variant="dark">
                 <thead>
                     <tr>
-                        <th>Unique Id</th>
+                        <th>Record #</th>
                         <th>Employee Id</th>
                         <th>Name</th>
                         <th>Start Time</th>
@@ -136,7 +138,7 @@ export const Manager = () => {
                                     <td>
                                         <Button variant="outline-success" onClick={() => handleAccepted(record.uniqueID)}>Accept</Button>{' '}
                                         <Button variant="outline-danger" onClick={() => handleRejected(record.uniqueID)}>Reject</Button>{' '}
-                                        <Button variant="outline-primary" onClick={() => { handleModify(); modifyRecord(record.uniqueID) }}>Modify</Button>
+                                        <Button variant="outline-primary" onClick={() => { modifyForm(record.uniqueID); }}>Modify</Button>
                                     </td>
                                 </tr>
                             );
@@ -146,6 +148,9 @@ export const Manager = () => {
             </Table>
             <div id="modify-form">
                 <form>
+                    <label id="manager-label"> Record #: </label> 
+                    <input type="number" id="uniqueid"></input>
+                    <br></br>
                     <label id="manager-label"> Start Time: </label> 
                     <input type="datetime-local" id="starttime"></input>
                     <br></br>
@@ -154,11 +159,11 @@ export const Manager = () => {
                     <br></br>
                     <label id="manager-label"> Shift Type: </label> 
                     <select id="shifttype">
-                        <option value="work">Work</option>
-                        <option value="break">Break</option>
+                        <option value="Work">Work</option>
+                        <option value="Break">Break</option>
                     </select>
                     <br></br>
-                    <button id="modify-btn" onSubmit={modifyRecord}>Submit</button>
+                    <button id="modify-btn" onSubmit={handleModified}>Submit</button>
               </form>
             </div>
             <div id="back">
