@@ -51,9 +51,9 @@ app.get("/api/employee/status/update/*/*", (req,res) => {
     const valuesArray = req.originalUrl.split("/");
     
     const statusVal = valuesArray[5];
-    const userIdVal = valuesArray[6];
+    const uniqueIdVal = valuesArray[6];
 
-    const sqlUpdate = `UPDATE employee_time SET status='${statusVal}' WHERE userID=${userIdVal};`
+    const sqlUpdate = `UPDATE employee_time SET status='${statusVal}' WHERE uniqueID=${uniqueIdVal};`
     db.query(sqlUpdate, (err,result) => {
         if(err) throw err
         res.send(result)
@@ -62,16 +62,16 @@ app.get("/api/employee/status/update/*/*", (req,res) => {
 });
 
 //Modify record (manager view)
-app.get("/api/employee/status/update/Modify/*/*", (req,res) => {
+app.get("/api/employee/status/update/Modified/*/*", (req,res) => {
     const valuesArray = req.originalUrl.split("/");
-    
+    console.log(valuesArray);
     const statusVal = valuesArray[5];
-    const userIdVal = valuesArray[6];
+    const uniqueIdVal = valuesArray[6];
     const startTimeVal = valuesArray[7];
     const endTimeVal = valuesArray[8];
     const shiftTypeVal = valuesArray[9];
     
-    const sqlUpdate = `UPDATE employee_time SET status='${statusVal}', startTime=${startTimeVal}, endTime=${endTimeVal}, type='${shiftTypeVal}' WHERE userID=${userIdVal};`
+    const sqlUpdate = `UPDATE employee_time SET status='${statusVal}', startTime=${startTimeVal}, endTime=${endTimeVal}, type='${shiftTypeVal}' WHERE userID=${uniqueIdVal};`
 
     db.query(sqlUpdate, (err,result) => {
         if(err) throw err

@@ -2,6 +2,7 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import { React, useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import $ from "jquery";
 
 export const Manager = () => {
     
@@ -18,31 +19,33 @@ export const Manager = () => {
         )
     }, []);
 
-    const userid = 4;
-
-    const handleAccepted = () => {
+    const handleAccepted = (uniqueID) => {
         console.log("Accepted")
-        fetch(`http://localhost:3002/api/employee/status/update/Accepted/${userid}`).then(
+
+        fetch(`http://localhost:3002/api/employee/status/update/Accepted/${uniqueID}`).then(
             response => response.json()
         )
         .then (
             data => {
                 setBackendData(data)
                 console.log(data)
-            }
+            },
+            window.location.reload()
         )
     }
 
-    const handleRejected = () => {
+    const handleRejected = (uniqueID) => {
         console.log("Rejected")
-        fetch(`http://localhost:3002/api/employee/status/update/Rejected/${userid}`).then(
+
+        fetch(`http://localhost:3002/api/employee/status/update/Rejected/${uniqueID}`).then(
             response => response.json()
         )
         .then (
             data => {
                 setBackendData(data)
                 console.log(data)
-            }
+            },
+            window.location.reload()
         )
     }
 
@@ -50,20 +53,20 @@ export const Manager = () => {
         document.getElementById("modify-form").style.visibility = "visible";
     }
 
-    const modifyRecord = () => {
+    const modifyRecord = (uniqueID) => {
         var starttime = document.getElementById("starttime").value;
         var endtime = document.getElementById("endtime").value;
         var shifttype = document.getElementById("shifttype").value;
-        console.log(starttime);
         console.log("Modified")
-        fetch(`http://localhost:3002/api/employee/status/update/Modify/${userid}/${starttime}/${endtime}/${shifttype}`).then(
+        fetch(`http://localhost:3002/api/employee/status/update/Modified/${uniqueID}/${starttime}/${endtime}/${shifttype}`).then(
             response => response.json()
         )
         .then (
             data => {
                 setBackendData(data)
                 console.log(data)
-            }
+            },
+            //window.location.reload()
         )
     }
 
@@ -92,6 +95,7 @@ export const Manager = () => {
             <Table striped bordered hover variant="dark">
                 <thead>
                     <tr>
+                        <th>Unique Id</th>
                         <th>Employee Id</th>
                         <th>Name</th>
                         <th>Start Time</th>
@@ -121,7 +125,8 @@ export const Manager = () => {
                             }
                             return (
                                 <tr key={index}>
-                                    <td>{record.userID}</td>
+                                    <td>{record.uniqueID}</td>
+                                    <td className="row-data">{record.userID}</td>
                                     <td>{record.username}</td>
                                     <td>{startTime.toLocaleString({}, { timeZone: "EST" })}</td>
                                     <td>{endTime.toLocaleString({}, { timeZone: "EST" })}</td>
@@ -129,9 +134,9 @@ export const Manager = () => {
                                     <td>{record.type}</td>
                                     <td>{record.status}</td>
                                     <td>
-                                        <Button variant="outline-success" onClick={handleAccepted}>Accept</Button>{' '}
-                                        <Button variant="outline-danger" onClick={handleRejected}>Reject</Button>{' '}
-                                        <Button variant="outline-primary" onClick={handleModify}>Modify</Button>
+                                        <Button variant="outline-success" onClick={() => handleAccepted(record.uniqueID)}>Accept</Button>{' '}
+                                        <Button variant="outline-danger" onClick={() => handleRejected(record.uniqueID)}>Reject</Button>{' '}
+                                        <Button variant="outline-primary" onClick={() => { handleModify(); modifyRecord(record.uniqueID) }}>Modify</Button>
                                     </td>
                                 </tr>
                             );
