@@ -31,7 +31,7 @@ export const Navbar1 = () => {
   }
 
   return (
-    <Navbar bg="light" variant="light">
+    < Navbar bg="light" variant="light" >
       <Container>
         <Navbar.Brand href="/">TimeSheet</Navbar.Brand>
         <Nav className="me-auto">
@@ -42,7 +42,7 @@ export const Navbar1 = () => {
           <Nav.Link href="/logout" disabled={logoutPage} >Logout</Nav.Link>
         </Nav>
       </Container>
-    </Navbar>
+    </Navbar >
   )
 }
 

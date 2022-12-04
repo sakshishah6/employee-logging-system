@@ -7,6 +7,8 @@ export const Logout = () => {
         let path = `/`; 
         navigate(path);
     };
+    // disable all navbar buttons but log in here
+
     return (
         <div className="logout">
             <h3>You have been logged out.</h3>

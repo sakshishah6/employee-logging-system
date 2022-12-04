@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import { Navbar1 } from '../components/Navbar';
 
 export const Login = () => {
     const [username, setUsername] = useState();
@@ -37,6 +38,10 @@ export const Login = () => {
 
     const navigateToHome = () => {
         let path = `/home`;
+        // Need to store these globally so they can be displayed on the pages and use these to enable and disable navbar buttons(manager page)
+        // var name = backendData[0].name;
+        // var userName = backendData[0].userName;
+        // var userType = backendData[0].userType;
         navigate(path);
     };
 
