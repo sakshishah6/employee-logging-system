@@ -50,6 +50,15 @@ app.get("/api/employee/manager/*", (req,res) => {
     })
 });
 
+// Gets all the employees records, will be used for manager table
+app.get("/api/employee/manager", (req,res) => {
+    const sqlInsert = `SELECT * FROM employee_time;`
+    db.query(sqlInsert, (err,result) => {
+        if(err) throw err
+        res.send(result)
+    })
+});
+
 // Updates the status of employee record (manager view)
 app.get("/api/employee/status/update/*/*", (req,res) => {
     const valuesArray = req.originalUrl.split("/");
@@ -66,14 +75,23 @@ app.get("/api/employee/status/update/*/*", (req,res) => {
 });
 
 //Modify record (manager view)
-app.get("/api/employee/status/update/Modified/*/*/*/*", (req,res) => {
+app.get("/api/employee/status/Modified/*/*/*/*", (req,res) => {
     const valuesArray = req.originalUrl.split("/");
-    const uniqueIdVal = valuesArray[6];
-    const startTimeVal = valuesArray[7];
-    const endTimeVal = valuesArray[8];
-    const shiftTypeVal = valuesArray[9];
+    const uniqueIdVal = valuesArray[5];
+    const startTimeVal = valuesArray[6];
+    const endTimeVal = valuesArray[7];
+    const shiftTypeVal = valuesArray[8];
+
+    var finalStartDateTime = new Date(startTimeVal)
+    finalStartDateTime = finalStartDateTime - (finalStartDateTime.getTimezoneOffset() * 60000);
+    var finalStartDateTime = new Date(finalStartDateTime).toISOString().replace('T', ' ').replace('Z', '');
+
+    var finalEndDateTime = new Date(endTimeVal)
+    finalEndDateTime = finalEndDateTime - (finalEndDateTime.getTimezoneOffset() * 60000);
+    var finalEndDateTime = new Date(finalEndDateTime).toISOString().replace('T', ' ').replace('Z', '');
+
     
-    const sqlUpdate = `UPDATE employee_time SET status='Modified' WHERE uniqueID=${uniqueIdVal};`
+    const sqlUpdate = `UPDATE employee_time SET type='${shiftTypeVal}',startTime='${finalStartDateTime}', endTime='${finalEndDateTime}',status='Modified' WHERE uniqueID=${uniqueIdVal};`
 //, startTime='${startTimeVal}', endTime='${endTimeVal}', type='${shiftTypeVal}' 
     db.query(sqlUpdate, (err,result) => {
         if(err) throw err
@@ -150,21 +168,36 @@ app.get("/api/endTimeNull/*", (req,res) => {
     })
 });
 
+app.get('/api/register/*/*/*/*', (req, res)=> {
+    const valuesArray = req.originalUrl.split("/");
+    const username = valuesArray[3];
+    const password = valuesArray[4];
+    const userType = valuesArray[5];
+    const name = valuesArray[6];
+    const sqlInsert = `INSERT INTO user (username, password,name, usertype) VALUES (${username}, '${password}', '${name}', '${userType}')`
 
+    db.query(sqlInsert, (err, result) => {
+        if (err) throw err    
+        res.send(result)        
+    }); 
+});
 
+app.get('/api/users', (req, res)=> {
+    db.query("SELECT * FROM user;", (err, result) => {
+        if (err) throw err    
+        res.send(result) 
+    }); 
+});
 
-app.post('/api/register', (req, res)=> {
+app.get('/api/login/*/*', (req, res)=> {
+    const valuesArray = req.originalUrl.split("/");
+    const username = valuesArray[3];
+    const password = valuesArray[4];
 
-    const username = req.body.username;
-    const password = req.body.password;
-    const usertype = req.body.usertype;
-    db.query(
-        "INSERT INTO user (username, password, usertype) VALUES (?,?,?)", 
-        [username, password,usertype], 
-        (err, res) => {
-        console.log(err) 
-        }
-        ); 
+    db.query(`SELECT * FROM user WHERE username=${username} AND password='${password}';`, (err, result) => {
+        if (err) throw err    
+        res.send(result) 
+    }); 
 });
 
 

@@ -56,29 +56,23 @@ export const Manager = () => {
 
     function modifyForm(uniqueID) {
         document.getElementById("modify-form").style.visibility = "visible";
-        //handleModified(uniqueID)
     }
 
-    const handleModified2 = () => {
-        console.log("Hello")
-
-        //document.getElementById("modify-form").style.visibility = "visible";
-        // var uniqueid = document.getElementById("uniqueid").value;
-        // var starttime = document.getElementById("starttime").value.toLocaleString();
-        // var endtime = document.getElementById("endtime").value.toLocaleString();
-        // var shifttype = document.getElementById("shifttype").value;
-        // console.log("Modified")
-        // console.log(uniqueid)
-        // console.log(endtime)
-        // console.log(shifttype)
-        // fetch(`http://localhost:3002/api/employee/status/update/Modified/${uniqueid}/${starttime}/${endtime}/${shifttype}`).then(
-        //     response => response.json()
-        // )
-        //     .then(
-        //         data => {
-        //             setBackendData(data)
-        //             console.log(data)
-        //         })
+    const handleModified = () => {
+        document.getElementById("modify-form").style.visibility = "visible";
+        var uniqueid = document.getElementById("uniqueid").value;
+        var starttime = document.getElementById("starttime").value.toLocaleString();
+        var endtime = document.getElementById("endtime").value.toLocaleString();
+        var shifttype = document.getElementById("shifttype").value;
+        fetch(`http://localhost:3002/api/employee/status/Modified/${uniqueid}/${starttime}/${endtime}/${shifttype}`).then(
+            response => response.json()
+        )
+            .then(
+                data => {
+                    setBackendData(data)
+                    console.log(data)
+                }
+            )
     }
 
     const [dt, setDt] = useState(new Date().toLocaleString());
@@ -172,7 +166,7 @@ export const Manager = () => {
                         <option value="Break">Break</option>
                     </select>
                     <br></br>
-                    <button id="modify-btn" onClick={() => handleModified2}>Submit</button>
+                    <button id="modify-btn" onClick={handleModified}>Submit</button>
                 </form>
             </div>
             <div id="back">

@@ -11,6 +11,7 @@ import { EmployeeEndShift } from './views/EmployeeEndShift';
 import { EmployeeStartBreak } from './views/EmployeeStartBreak';
 import { EmployeeEndBreak } from './views/EmployeeEndBreak';
 import { Logout } from './views/Logout';
+import { Register } from "./views/Register";
 import Navbar1 from "./components/Navbar";
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
               <Route path="home" element={<Home />} />
               <Route path="manager" element={<Manager />} />
               <Route path="employee" element={<Employee />} />
+              <Route path="register" element={<Register />} />
               <Route path="employee-history" element={<EmployeeHistory />} />
               <Route path="employee-time-punches" element={<EmployeeTimePunches />} />
               <Route path="employee-start-shift" element={<EmployeeStartShift />} />

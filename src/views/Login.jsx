@@ -1,49 +1,49 @@
-import React, { useState } from "react";
-import Axios from 'axios';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
+import { React, useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import Navbar from 'react-bootstrap/Navbar';
 
 export const Login = () => {
-    const [useridReg, setUserIdReg] = useState('');
-    const [passwordReg, setPasswordReg] = useState('');
-    const [userTypeReg, setUserTypeReg] = useState('');
+    const [username, setUsername] = useState();
+    const [password, setPassword] = useState();
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    var [inputStatus, setInputStatus] = useState();
+    const [backendData, setBackendData] = useState([{}])
+    const SignIn = (e) => {
+        e.preventDefault();
+        if (containsOnlyNumbers(username)) {
+            fetch(`http://localhost:3002/api/login/${username}/${password}`).then(
+                response => response.json()
+            ).then(
+                data => {
+                    setBackendData(data)
+                    if (JSON.stringify(data) === '[]') {
+                        setInputStatus("Incorrect User ID or Password");
+                    } else {
+                        setInputStatus("")
+                        navigateToHome();
 
-    const [loginStatus, setLoginStatus] = useState('');
-
-    const register = () => {
-        Axios.post('http://localhost:3002/api/register', {
-            username: useridReg,
-            password: passwordReg,
-            usertype: userTypeReg
-        }).then((response) => {
-            console.log(response);
-        });
+                    }
+                }
+            )
+        } else {
+            setInputStatus("Incorrect User ID or Password");
+        }
     };
 
-
-    const login = () => {
-        Axios.post('http://localhost:3002/api/login', {
-            username: username,
-            password: password,
-        }).then((res) => {
-            console.log("hi")
-            console.log(res);
-        });
-    };
-
+    function containsOnlyNumbers(str) {
+        return /^\d+$/.test(str);
+    }
 
     let navigate = useNavigate();
 
-    const navigateToManager = () => {
+    const navigateToHome = () => {
         let path = `/home`;
         navigate(path);
     };
 
+    const navigateToRegister = () => {
+        let path = `/register`;
+        navigate(path);
+    };
 
     return (
         <div id="auth-form-container">
@@ -51,35 +51,17 @@ export const Login = () => {
             <div id="login-reg">
                 <form id="login-form">
                     <label>User ID</label>
-                    <input
-                        type="text"
-                        onChange={(e) => {
-                            setUserIdReg(e.target.value);
-                        }}
-                    />
-                    <label>Password</label>
-                    <input
-                        type="text"
-                        onChange={(e) => {
-                            setPasswordReg(e.target.value);
-                        }} />
-                    <label >Employee Type</label>
-                    <input
-                        type="text"
-                        onChange={(e) => {
-                            setUserTypeReg(e.target.value);
-                        }}
-                    />
-                    <button id="register-btn" onClick={register}>Register</button>
+                    <input onChange={(e) => setUsername(e.target.value)} type="text" />
+                    <label >Password</label>
+                    <input onChange={(e) => setPassword(e.target.value)} type="password" />
+                    <div>
+                        <button id="login-btn" onClick={SignIn}>Login</button>
+                        <button id="register-btn" onClick={navigateToRegister}>Register</button>
+                    </div>
+
+                    <center><label>{inputStatus}</label></center>
+
                 </form>
-            
-            <form id="login-form">
-                <label>User ID</label>
-                <input onChange={(e) => setUsername(e.target.value)} type="text" />
-                <label >Password</label>
-                <input onChange={(e) => setPassword(e.target.value)} type="text" />
-                <button id="login-btn" onClick={navigateToManager}>Login</button>
-            </form>
             </div>
         </div>
 
