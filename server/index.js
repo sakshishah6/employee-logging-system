@@ -84,11 +84,11 @@ app.get("/api/employee/status/Modified/*/*/*/*", (req,res) => {
 
     var finalStartDateTime = new Date(startTimeVal)
     finalStartDateTime = finalStartDateTime - (finalStartDateTime.getTimezoneOffset() * 60000);
-    var finalStartDateTime = new Date(finalStartDateTime).toISOString().replace('T', ' ').replace('Z', '');
+    finalStartDateTime = new Date(finalStartDateTime).toISOString().replace('T', ' ').replace('Z', '');
 
     var finalEndDateTime = new Date(endTimeVal)
     finalEndDateTime = finalEndDateTime - (finalEndDateTime.getTimezoneOffset() * 60000);
-    var finalEndDateTime = new Date(finalEndDateTime).toISOString().replace('T', ' ').replace('Z', '');
+    finalEndDateTime = new Date(finalEndDateTime).toISOString().replace('T', ' ').replace('Z', '');
 
     
     const sqlUpdate = `UPDATE employee_time SET type='${shiftTypeVal}',startTime='${finalStartDateTime}', endTime='${finalEndDateTime}',status='Modified' WHERE uniqueID=${uniqueIdVal};`
@@ -127,8 +127,9 @@ app.get("/api/endShiftBreak/*", (req,res) => {
     const userIdVal = valuesArray[3];
 
     var endDateTime = new Date();
+    var finalEndDateTime = new Date();
     endDateTime = endDateTime - (endDateTime.getTimezoneOffset() * 60000);
-    finalEndDateTime = new Date(endDateTime).toISOString().replace('T', ' ').replace('Z', '');
+    finalEndDateTime = endDateTime.toISOString().replace('T', ' ').replace('Z', '');
 
         const sqlUpdate = `UPDATE employee_time SET endTime='${finalEndDateTime}' WHERE userID=${userIdVal} and endTime IS NULL;`
 

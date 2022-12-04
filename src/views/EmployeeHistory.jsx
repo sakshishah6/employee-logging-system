@@ -63,7 +63,7 @@ export const EmployeeHistory = () => {
                                 if (record.endTime === null) {
                                     var endTime = "";
                                 } else {
-                                    var endTime = new Date(record.endTime);
+                                    endTime = new Date(record.endTime);
                                 }
 
                                 var hours = 0;

@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from 'react';
+import { React, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
 export const Register = () => {
@@ -32,16 +32,16 @@ export const Register = () => {
                                 }
                             )
                         } else {
-                            setRegInputStatus("Passwords must be 7 or more characters");
+                            setRegInputStatus("Passwords must be 7 or more characters.");
                         }
                     } else {
-                        setRegInputStatus("Passwords Do Not Match");
+                        setRegInputStatus("Passwords Do Not Match.");
                     }
                 } else {
-                    setRegInputStatus("Incorrect Employee Type");
+                    setRegInputStatus("Incorrect Employee Type. Please enter 'Manager' or 'Employee'.");
                 }
             } else {
-                setRegInputStatus("Incorrect User ID format");
+                setRegInputStatus("Incorrect User ID format. User ID must be 5 numeric characters.");
             }
         }
     };

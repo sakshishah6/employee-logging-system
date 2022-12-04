@@ -44,7 +44,6 @@ export const EmployeeEndBreak = () => {
                     <strong>Time: </strong> {date.toLocaleTimeString()}
                 </p>
                 <br></br><br></br>
-                <p id="trivial">Duration of break:</p>
             </div>
             <div id="back">
                 <Button id="back-btn" variant="light" onClick={navigateBack} size="sm">Back</Button>
