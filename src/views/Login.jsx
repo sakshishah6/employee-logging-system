@@ -1,13 +1,12 @@
-import { React, useState, useEffect } from 'react';
+import { React, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
-    const name = username;
 
     var [inputStatus, setInputStatus] = useState();
-    const [backendData, setBackendData] = useState([{}])
+    const [setBackendData] = useState([{}])
     const SignIn = (e) => {
         e.preventDefault();
         if (containsOnlyNumbers(username)) {

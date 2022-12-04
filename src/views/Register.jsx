@@ -8,7 +8,7 @@ export const Register = () => {
     const [passwordReReg, setPasswordReReg] = useState('');
     const [userTypeReg, setUserTypeReg] = useState('');
     var [regInputStatus, setRegInputStatus] = useState();
-    const [backendData, setBackendData] = useState([{}])
+    const [setBackendData] = useState([{}])
 
     function containsOnlyNumbers(str) {
         return /^\d+$/.test(str);

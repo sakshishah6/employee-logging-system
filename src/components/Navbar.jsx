@@ -1,9 +1,10 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { React, useState, useEffect } from 'react';
+import { React, useState } from 'react';
 
 export const Navbar1 = () => {
+
   const [homePage, setHomePage] = useState(false)
   const [employeePage, setEmployeePage] = useState(false)
   const [managerPage, setManagerPage] = useState(false)
@@ -29,7 +30,7 @@ export const Navbar1 = () => {
     setManagerPage(true);
     setLogoutPage(false);
   }
-
+  
   return (
     <Navbar bg="light" variant="light">
       <Container>
