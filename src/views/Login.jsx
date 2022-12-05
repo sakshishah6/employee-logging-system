@@ -1,8 +1,9 @@
 import { React, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
-export const Login = () => {
-    const [username, setUsername] = useState();
+
+export const Login = ({userId, setUserId}) => {
+    //const [username, setUsername] = useState();
     const [password, setPassword] = useState();
 
     var [inputStatus, setInputStatus] = useState();
@@ -10,8 +11,8 @@ export const Login = () => {
 
     const SignIn = (e) => {
         e.preventDefault();
-        if (containsOnlyNumbers(username)) {
-            fetch(`http://localhost:3002/api/login/${username}/${password}`).then(
+        if (containsOnlyNumbers(userId)) {
+            fetch(`http://localhost:3002/api/login/${userId}/${password}`).then(
                 response => response.json()
             ).then(
                 data => {
@@ -51,9 +52,9 @@ export const Login = () => {
             <div id="login-reg">
                 <form id="login-form">
                     <label>User ID</label>
-                    <input onChange={(e) => setUsername(e.target.value)} minlength="5" maxlength="5" type="text" />
+                    <input onChange={(e) => setUserId(e.target.value)} minlength="5" maxlength="5" type="text" />
                     <label >Password</label>
-                    <input onChange={(e) => setPassword(e.target.value)} minlength="7" maxlength="7" type="password" />
+                    <input onChange={(e) => setPassword(e.target.value)} minlength="7" type="password" />
                     <div>
                         <button id="login-btn" onClick={SignIn}>Login</button>
                         <button id="register-btn" onClick={navigateToRegister}>Register</button>

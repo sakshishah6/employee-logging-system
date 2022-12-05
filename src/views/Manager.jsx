@@ -1,25 +1,25 @@
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import { React, useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import $ from 'jquery';
 
-export const Manager = () => {
+export const Manager = ({ userId, name }) => {
 
     const [backendData, setBackendData] = useState([{}])
     //const [statusButtonsState, disableStatusButtons] = useState(true)
     var shown = true;
-    var managerId = 345123;
 
+    
     useEffect(() => {
         if (shown) {
             shown = false;
-            fetch(`http://localhost:3002/api/employee/manager/${managerId}`).then(
+            fetch(`http://localhost:3002/api/employee/manager/${userId}`).then(
                 response => response.json()
             ).then(
                 data => {
-                    console.log(data)
                     setBackendData(data)
-                }
+                },
+                //document.getElementById("emp-table").reload()
             )
         }
     }, []);
@@ -33,9 +33,7 @@ export const Manager = () => {
             .then(
                 data => {
                     setBackendData(data)
-                    console.log(data)
                 },
-                window.location.reload()
             )
     }
 
@@ -48,9 +46,8 @@ export const Manager = () => {
             .then(
                 data => {
                     setBackendData(data)
-                    console.log(data)
                 },
-                window.location.reload()
+                document.getElementById("emp-table").refresh()
             )
     }
 
@@ -70,7 +67,6 @@ export const Manager = () => {
             .then(
                 data => {
                     setBackendData(data)
-                    console.log(data)
                 }
             )
     }
@@ -83,21 +79,15 @@ export const Manager = () => {
         return () => clearInterval(secTimer);
     }, []);
 
-    let navigate = useNavigate();
-    const navigateToLogoutPage = () => {
-        let path = `/logout`;
-        navigate(path);
-    };
-
     return (
         <div className="manager">
             <h1>Manager Dashboard</h1>
             <br></br>
-            <p><strong>Name: Steve</strong> </p>
-            <p><strong>Manager ID: 345123</strong> </p>
+            <p><strong>Name:</strong> {name}</p>
+            <p><strong>Manager ID:</strong> {userId}</p>
             <p><strong>Current Date:</strong> {dt}</p>
             <br></br>
-            <Table striped bordered hover variant="dark">
+            <Table className="emp-table" striped bordered hover variant="dark">
                 <thead>
                     <tr>
                         <th>Record #</th>
@@ -168,9 +158,6 @@ export const Manager = () => {
                     <br></br>
                     <button id="modify-btn" onClick={handleModified}>Submit</button>
                 </form>
-            </div>
-            <div id="back">
-                <Button id="logout-btn" variant="light" onClick={navigateToLogoutPage} size="sm">Logout</Button>
             </div>
         </div>
     );

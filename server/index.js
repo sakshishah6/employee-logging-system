@@ -91,7 +91,7 @@ app.get("/api/employee/status/Modified/*/*/*/*", (req,res) => {
     finalEndDateTime = new Date(finalEndDateTime).toISOString().replace('T', ' ').replace('Z', '');
 
     
-    const sqlUpdate = `UPDATE employee_time SET type='${shiftTypeVal}',startTime='${finalStartDateTime}', endTime='${finalEndDateTime}',status='Modified' WHERE uniqueID=${uniqueIdVal};`
+    const sqlUpdate = `UPDATE employee_time SET type='${shiftTypeVal}', startTime='${finalStartDateTime}', endTime='${finalEndDateTime}',status='Modified' WHERE uniqueID=${uniqueIdVal};`
 //, startTime='${startTimeVal}', endTime='${endTimeVal}', type='${shiftTypeVal}' 
     db.query(sqlUpdate, (err,result) => {
         if(err) throw err
@@ -121,42 +121,47 @@ app.get("/api/startShiftBreak/*/*/*", (req,res) => {
 });
 
 
-// When start shift or break pressed, updates record and ends shift
+// When end shift or break pressed, updates record and ends shift
 app.get("/api/endShiftBreak/*", (req,res) => {
     const valuesArray = req.originalUrl.split("/");
     const userIdVal = valuesArray[3];
 
     var endDateTime = new Date();
-    var finalEndDateTime = new Date();
     endDateTime = endDateTime - (endDateTime.getTimezoneOffset() * 60000);
-    finalEndDateTime = endDateTime.toISOString().replace('T', ' ').replace('Z', '');
+    var finalEndDateTime = new Date(endDateTime).toISOString().replace('T', ' ').replace('Z', '');
 
-        const sqlUpdate = `UPDATE employee_time SET endTime='${finalEndDateTime}' WHERE userID=${userIdVal} and endTime IS NULL;`
+    const sqlUpdate = `UPDATE employee_time SET endTime='${finalEndDateTime}' WHERE userID=${userIdVal} and endTime IS NULL;`
 
-        db.query(sqlUpdate, (err,result) => {
-            if(err) throw err
-            console.log(result)
-            res.send(result)
-        })
-    });
-
-
+    db.query(sqlUpdate, (err,result) => {
+        if(err) throw err
+        res.send(result)
+    })
+});
 
 
 // Gets a specific employees records for employee dashboard
 app.get("/api/employeeSpecific/*", (req,res) => {
     const valuesArray = req.originalUrl.split("/");
     const userId = valuesArray[3];
-     const sqlInsert = `SELECT * FROM employee_time WHERE userID=${userId};`
-    // const sqlInsert = `DELETE FROM employee_time WHERE userID=${userId} AND startTime IS NOT NULL AND endTime IS NULL;`
-    // const sqlInsert = `DELETE FROM employee_time WHERE username='Joe';`
-    // const sqlInsert = `DELETE FROM employee_time WHERE userID=${userId};`
-
+    const sqlInsert = `SELECT * FROM employee_time WHERE userID=${userId};`
 
     db.query(sqlInsert, (err,result) => {
         res.send(result)
     })
 });
+
+
+// Gets a specific employees name to display on page
+app.get("/api/users/*", (req,res) => {
+    const valuesArray = req.originalUrl.split("/");
+    const userId = valuesArray[3];
+    const sql = `SELECT name FROM user WHERE username=${userId};`
+
+    db.query(sql, (err,result) => {
+        res.send(result)
+    })
+});
+
 
 // For time punches, checks data to see which buttons to disable
 app.get("/api/endTimeNull/*", (req,res) => {

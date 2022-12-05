@@ -1,9 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import React, { useState, useEffect } from 'react';
-import { Login } from './Login';
 
-export const Employee = () => {
+export const Employee = ({ userId, name }) => {
     let navigate = useNavigate();
     const navigateToHistory = () => {
         let path = `/employee-history`;
@@ -20,14 +19,13 @@ export const Employee = () => {
         }, 1000)
         return () => clearInterval(secTimer);
     }, []);
-    var user = Login();
-    console.log(user.name);
+
     return (
         <div className="employee">
             <h1>Employee Dashboard</h1>
             <br></br>
-            <p><strong>Name: </strong>{user.name} </p>
-            <p><strong>Employee ID: </strong> </p>
+            <p><strong>Name:</strong> {name}</p>
+            <p><strong>Employee ID:</strong> {userId}</p>
             <p><strong>Current Date:</strong> {dt}</p>
             <br></br><br></br>
             <div id="emp">

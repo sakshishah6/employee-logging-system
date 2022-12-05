@@ -15,6 +15,10 @@ body {
   min-width: 50vh;
 }
 
+.navbar {
+  width: 100%;
+}
+
 .home {
   text-align: center;
   color: white;
@@ -75,6 +79,7 @@ body {
 
 #landing-page {
   display: flex;
+  flex-direction: column;
   min-width: 100px;
   align-items: center;
   justify-content: center;
@@ -84,7 +89,7 @@ body {
   display: flex;
   flex-direction: column;
   margin: 5rem;
-  padding: 4rem;
+  padding: 2rem;
   border: 0.2rem solid #FBFBFB;
   border-radius: 10px;
 }
@@ -93,11 +98,17 @@ body {
   text-align: left;
   display: flex;
   flex-direction: column;
-  padding: 50px;
+  padding-right: 50px;
+  padding-left: 50px;
 }
 
 #login-reg {
   display: flex;
+}
+
+#reg-text {
+  text-align: center;
+  padding: 10px;
 }
 
 label {
@@ -162,7 +173,7 @@ p#title {
   color: white;
   font-size: 30px;
   text-align: center;
-  padding: 2rem;
+  padding: 1rem;
 }
 
 .employee,
@@ -285,11 +296,10 @@ p#title {
 #back-to-login-btn {
   font-family: 'DM Sans', sans-serif;
   color: white;
-  background-color: rgba(73, 73, 73, 0.389);
-  font-size: 15px;
+  background-color: rgba(73, 73, 73, 0);
+  font-size: 18px;
   padding: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
+  margin-bottom: 3rem;
 }
 
 #back-to-login-btn:hover {
@@ -310,7 +320,6 @@ p#title {
   padding: 10px;
   padding-left: 20px;
   padding-right: 20px;
-  margin-right: 10px;
 }
 
 #back-btn:hover {
@@ -338,4 +347,8 @@ p#title {
 #logout-btn:hover {
   background: #fbfbfb87;
   color: black;
+}
+
+.disabled {
+  pointer-events: none;
 }

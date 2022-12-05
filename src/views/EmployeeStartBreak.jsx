@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import Button from 'react-bootstrap/Button';
 import { useNavigate } from "react-router-dom";
+import { React, useState, useEffect } from 'react';
+import Button from 'react-bootstrap/Button';
 
-export const EmployeeStartBreak = () => {
+export const EmployeeStartBreak = ({ userId, name }) => {
+
     let navigate = useNavigate();
-
     const navigateBack = () => {
-        navigate(-1);
-    };
-    const navigateToLogoutPage = () => {
-        let path = `/logout`;
+        let path = `/employee`;
         navigate(path);
     };
+
     var [date] = useState(new Date());
     const [dt, setDt] = useState(new Date().toLocaleString());
     useEffect(() => {
@@ -21,16 +19,12 @@ export const EmployeeStartBreak = () => {
         return () => clearInterval(secTimer);
     }, []);
 
-    const employeeID = 345123;
-    const employeeName = "Steve";
+
     var checkCall = true;
-
-
-    // need to make name and userID dynamic
 
     useEffect(() => {
         if (checkCall) {
-            fetch(`http://localhost:3002/api/startShiftBreak/${employeeID}/${employeeName}/Break`)
+            fetch(`http://localhost:3002/api/startShiftBreak/${userId}/${name}/Break`)
             checkCall = false;
         }
     }, [])
@@ -39,7 +33,7 @@ export const EmployeeStartBreak = () => {
         <div className="employee">
             <h1>Employee Dashboard</h1>
             <br></br>
-            <p><strong>Name:</strong> </p>
+            <p><strong>Name:</strong> {name}</p>
             <p><strong>Employee ID:</strong> </p>
             <p><strong>Current Time:</strong> {dt}</p>
             <br></br><br></br>
@@ -52,8 +46,7 @@ export const EmployeeStartBreak = () => {
                 </p>
             </div>
             <div id="back">
-                <Button id="back-btn" variant="light" onClick={navigateBack} size="sm">Back</Button>
-                <Button id="logout-btn" variant="light" onClick={navigateToLogoutPage} size="sm">Logout</Button>
+                <Button id="back-btn" variant="light" onClick={navigateBack} size="sm">Back to Dashboard</Button>
             </div>
         </div>
     );

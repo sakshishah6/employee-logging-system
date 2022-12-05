@@ -1,5 +1,5 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
+//import React, { useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 
 export const Home = () => {
@@ -12,14 +12,9 @@ export const Home = () => {
         let path = `/employee`; 
         navigate(path);
     };
-    const navigateBack = () => { 
-        navigate(-1);
-    };
-    const navigateToLogoutPage = () => { 
-        let path = `/logout`; 
-        navigate(path);
-    };
+
     return (
+
         <div className="home">
             <h1>Welcome to TimeSheet</h1>
             <hr></hr>
@@ -45,10 +40,6 @@ export const Home = () => {
                         <Button id="emp-dash-btn" variant="outline-light" onClick={navigateToEmployee} size="md">Go to Employee Dashboard</Button>
                     </div>
                 </div>
-            </div>
-            <div id="back">
-                <Button id="back-btn" variant="light" onClick={navigateBack} size="sm">Back</Button>
-                <Button id="logout-btn" variant="light" onClick={navigateToLogoutPage} size="sm">Logout</Button>
             </div>
             <br></br>
         </div>

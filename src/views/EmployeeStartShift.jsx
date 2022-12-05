@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import Button from 'react-bootstrap/Button';
 import { useNavigate } from "react-router-dom";
+import { React, useState, useEffect } from 'react';
+import Button from 'react-bootstrap/Button';
 
-export const EmployeeStartShift = () => {
+export const EmployeeStartShift = ({ userId, name }) => {
+
     let navigate = useNavigate();
     const navigateBack = () => {
-        navigate(-1);
-    };
-    const navigateToLogoutPage = () => {
-        let path = `/logout`;
+        let path = `/employee`;
         navigate(path);
     };
+    
     const date = useState(new Date().toLocaleDateString());
     const time = useState(new Date().toLocaleTimeString());
     const [dt, setDt] = useState(new Date().toLocaleString());
@@ -21,15 +20,11 @@ export const EmployeeStartShift = () => {
         return () => clearInterval(secTimer);
     }, []);
 
-    const employeeID = 345123;
-    const employeeName = "Steve";
     var checkCall = true;
-
-    // need to make name and userID dynamic
 
     useEffect(() => {
         if (checkCall) {
-            fetch(`http://localhost:3002/api/startShiftBreak/${employeeID}/${employeeName}/Work`)
+            fetch(`http://localhost:3002/api/startShiftBreak/${userId}/${name}/Work`)
             checkCall = false;
         }
     }, [])
@@ -38,8 +33,8 @@ export const EmployeeStartShift = () => {
         <div className="employee">
             <h1>Employee Dashboard</h1>
             <br></br>
-            <p><strong>Name:</strong> </p>
-            <p><strong>Employee ID:</strong> </p>
+            <p><strong>Name:</strong> {name}</p>
+            <p><strong>Employee ID:</strong> {userId}</p>
             <p><strong>Current Time:</strong> {dt}</p>
             <br></br><br></br>
             <div id="info">
@@ -51,8 +46,7 @@ export const EmployeeStartShift = () => {
                 </p>
             </div>
             <div id="back">
-                <Button id="back-btn" variant="light" onClick={navigateBack} size="sm">Back</Button>
-                <Button id="logout-btn" variant="light" onClick={navigateToLogoutPage} size="sm">Logout</Button>
+                <Button id="back-btn" variant="light" onClick={navigateBack} size="sm">Back to Dashboard</Button>
             </div>
         </div>
     );
