@@ -80,7 +80,7 @@ body {
   justify-content: center;
 }
 
-.auth-form-container {
+#auth-form-container {
   display: flex;
   flex-direction: column;
   margin: 5rem;
@@ -103,6 +103,10 @@ body {
 label {
   padding: 0.25rem 0;
   color: #FBFBFB;
+}
+
+select {
+  height: 30px;
 }
 
 .auth-form-container input {
@@ -271,6 +275,26 @@ p#title {
   width: 10rem;
   border-radius: 4px;
   text-align: center;
+}
+
+#back-to-login {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+#back-to-login-btn {
+  font-family: 'DM Sans', sans-serif;
+  color: white;
+  background-color: rgba(73, 73, 73, 0.389);
+  font-size: 15px;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+#back-to-login-btn:hover {
+  background: #fbfbfb87;
+  color: black;
 }
 
 #back {

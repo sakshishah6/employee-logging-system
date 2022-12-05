@@ -6,7 +6,8 @@ export const Login = () => {
     const [password, setPassword] = useState();
 
     var [inputStatus, setInputStatus] = useState();
-    const [setBackendData] = useState([{}])
+    //const [backendData, setBackendData] = useState([{}])
+
     const SignIn = (e) => {
         e.preventDefault();
         if (containsOnlyNumbers(username)) {
@@ -14,13 +15,12 @@ export const Login = () => {
                 response => response.json()
             ).then(
                 data => {
-                    setBackendData(data)
+                    //setBackendData(data);
                     if (JSON.stringify(data) === '[]') {
                         setInputStatus("Incorrect User ID or Password");
                     } else {
-                        setInputStatus("")
+                        setInputStatus("");
                         navigateToHome();
-
                     }
                 }
             )
@@ -51,9 +51,9 @@ export const Login = () => {
             <div id="login-reg">
                 <form id="login-form">
                     <label>User ID</label>
-                    <input onChange={(e) => setUsername(e.target.value)} type="text" />
+                    <input onChange={(e) => setUsername(e.target.value)} minlength="5" maxlength="5" type="text" />
                     <label >Password</label>
-                    <input onChange={(e) => setPassword(e.target.value)} type="password" />
+                    <input onChange={(e) => setPassword(e.target.value)} minlength="7" maxlength="7" type="password" />
                     <div>
                         <button id="login-btn" onClick={SignIn}>Login</button>
                         <button id="register-btn" onClick={navigateToRegister}>Register</button>

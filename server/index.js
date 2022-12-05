@@ -173,9 +173,10 @@ app.get('/api/register/*/*/*/*', (req, res)=> {
     const valuesArray = req.originalUrl.split("/");
     const username = valuesArray[3];
     const password = valuesArray[4];
-    const userType = valuesArray[5];
-    const name = valuesArray[6];
-    const sqlInsert = `INSERT INTO user (username, password,name, usertype) VALUES (${username}, '${password}', '${name}', '${userType}')`
+    const name = valuesArray[5];
+    const userType = valuesArray[6];
+    
+    const sqlInsert = `INSERT INTO user (username, password, name, usertype) VALUES (${username}, '${password}', '${name}', '${userType}')`
 
     db.query(sqlInsert, (err, result) => {
         if (err) throw err    
@@ -196,7 +197,7 @@ app.get('/api/login/*/*', (req, res)=> {
     const password = valuesArray[4];
 
     db.query(`SELECT * FROM user WHERE username=${username} AND password='${password}';`, (err, result) => {
-        if (err) throw err    
+        if (err) throw err
         res.send(result) 
     }); 
 });
