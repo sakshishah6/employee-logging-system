@@ -90,9 +90,8 @@ app.get("/api/employee/status/Modified/*/*/*/*", (req,res) => {
     finalEndDateTime = finalEndDateTime - (finalEndDateTime.getTimezoneOffset() * 60000);
     finalEndDateTime = new Date(finalEndDateTime).toISOString().replace('T', ' ').replace('Z', '');
 
-    
     const sqlUpdate = `UPDATE employee_time SET type='${shiftTypeVal}', startTime='${finalStartDateTime}', endTime='${finalEndDateTime}',status='Modified' WHERE uniqueID=${uniqueIdVal};`
-//, startTime='${startTimeVal}', endTime='${endTimeVal}', type='${shiftTypeVal}' 
+
     db.query(sqlUpdate, (err,result) => {
         if(err) throw err
         res.send(result)

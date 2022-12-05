@@ -1,7 +1,6 @@
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
-import { React, useState, useEffect } from 'react';
-import $ from 'jquery';
+import { React, useState, useEffect, useReducer } from 'react';
 
 export const Manager = ({ userId, name, setName }) => {
 
@@ -9,6 +8,7 @@ export const Manager = ({ userId, name, setName }) => {
     //const [statusButtonsState, disableStatusButtons] = useState(true)
     var shown = true;
 
+    const [reducerValue, forceUpdate] = useReducer(x => x + 1);
     
     useEffect(() => {
         if (shown) {
@@ -19,10 +19,12 @@ export const Manager = ({ userId, name, setName }) => {
                 data => {
                     setBackendData(data)
                 },
-                //document.getElementById("emp-table").reload()
+                forceUpdate()
             )
         }
-    }, []);
+    });
+
+
 
     const handleAccepted = (uniqueID) => {
         console.log("Accepted")
@@ -34,6 +36,7 @@ export const Manager = ({ userId, name, setName }) => {
                 data => {
                     setBackendData(data)
                 },
+                //forceUpdate()
             )
     }
 
@@ -47,7 +50,7 @@ export const Manager = ({ userId, name, setName }) => {
                 data => {
                     setBackendData(data)
                 },
-                document.getElementById("emp-table").refresh()
+                
             )
     }
 
@@ -56,18 +59,19 @@ export const Manager = ({ userId, name, setName }) => {
     }
 
     const handleModified = () => {
-        document.getElementById("modify-form").style.visibility = "visible";
         var uniqueid = document.getElementById("uniqueid").value;
         var starttime = document.getElementById("starttime").value.toLocaleString();
         var endtime = document.getElementById("endtime").value.toLocaleString();
         var shifttype = document.getElementById("shifttype").value;
+        document.getElementById("modify-form").style.visibility = "hidden";
         fetch(`http://localhost:3002/api/employee/status/Modified/${uniqueid}/${starttime}/${endtime}/${shifttype}`).then(
             response => response.json()
         )
             .then(
                 data => {
                     setBackendData(data)
-                }
+                },
+                //forceUpdate()
             )
     }
 
@@ -78,6 +82,7 @@ export const Manager = ({ userId, name, setName }) => {
             data => {
                 setBackendData(data)
             },
+            
         )
     })
 
@@ -88,7 +93,7 @@ export const Manager = ({ userId, name, setName }) => {
         }, 1000)
         return () => clearInterval(secTimer);
     }, []);
-
+    
     return (
         <div className="manager">
             <h1>Manager Dashboard</h1>
@@ -114,7 +119,7 @@ export const Manager = ({ userId, name, setName }) => {
                 <tbody>
                     {
                         backendData && backendData.length > 0 && backendData.map((record, index) => {
-                            setName(record.name);
+                            //setName(record.name);
                             const startTime = new Date(record.startTime);
                             if (record.endTime === null) {
                                 var endTime = "";
