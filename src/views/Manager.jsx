@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import { React, useState, useEffect } from 'react';
 import $ from 'jquery';
 
-export const Manager = ({ userId, name }) => {
+export const Manager = ({ userId, name, setName }) => {
 
     const [backendData, setBackendData] = useState([{}])
     //const [statusButtonsState, disableStatusButtons] = useState(true)
@@ -71,6 +71,16 @@ export const Manager = ({ userId, name }) => {
             )
     }
 
+    useEffect(() => {
+        fetch(`http://localhost:3002/api/username/${userId}`)
+        .then(response => response.json())
+        .then(
+            data => {
+                setBackendData(data)
+            },
+        )
+    })
+
     const [dt, setDt] = useState(new Date().toLocaleString());
     useEffect(() => {
         let secTimer = setInterval(() => {
@@ -104,6 +114,7 @@ export const Manager = ({ userId, name }) => {
                 <tbody>
                     {
                         backendData && backendData.length > 0 && backendData.map((record, index) => {
+                            setName(record.name);
                             const startTime = new Date(record.startTime);
                             if (record.endTime === null) {
                                 var endTime = "";

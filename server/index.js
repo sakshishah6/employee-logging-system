@@ -151,11 +151,23 @@ app.get("/api/employeeSpecific/*", (req,res) => {
 });
 
 
-// Gets a specific employees name to display on page
-app.get("/api/users/*", (req,res) => {
+// Gets a specific employee's name to display on page
+app.get("/api/username/*", (req,res) => {
     const valuesArray = req.originalUrl.split("/");
     const userId = valuesArray[3];
     const sql = `SELECT name FROM user WHERE username=${userId};`
+
+    db.query(sql, (err,result) => {
+        res.send(result)
+    })
+});
+
+
+// Gets the type of employee to disable nav links
+app.get("/api/userType/*", (req,res) => {
+    const valuesArray = req.originalUrl.split("/");
+    const userId = valuesArray[3];
+    const sql = `SELECT userType FROM user WHERE username=${userId};`
 
     db.query(sql, (err,result) => {
         res.send(result)

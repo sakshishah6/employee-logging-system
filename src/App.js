@@ -27,11 +27,11 @@ export default function App() {
           <Routes>
             <Route path="/">
               <Route index element={<Login userId={userId} setUserId={setUserId} />} />
-              <Route path="register" element={<Register name={name} setName={setName} />} />
+              <Route path="register" element={<Register name={name} />} />
               <Route path="home" element={<Home userId={userId} name={name} />} />
-              <Route path="manager" element={<Manager userId={userId} name={name} />} />
+              <Route path="manager" element={<Manager userId={userId} name={name} setName={setName} />} />
               <Route path="employee" element={<Employee userId={userId} name={name} />} />
-              <Route path="employee-history" element={<EmployeeHistory userId={userId} name={name} setName={setName} />} />
+              <Route path="employee-history" element={<EmployeeHistory userId={userId} name={name} />} />
               <Route path="employee-time-punches" element={<EmployeeTimePunches userId={userId} name={name} />} />
               <Route path="employee-start-shift" element={<EmployeeStartShift userId={userId} name={name} />} />
               <Route path="employee-end-shift" element={<EmployeeEndShift userId={userId} name={name} />} />

@@ -8,10 +8,7 @@ export const Logout = () => {
         navigate(path);
         window.location.reload();
     };
-    // Navbar1.setHomePage(true);
-    // Navbar1.setEmployeePage(true);
-    // Navbar1.setManagerPage(true);
-    // Navbar1.setLogoutPage(true);
+
     return (
         <div className="logout">
             <h3>You have been logged out.</h3>

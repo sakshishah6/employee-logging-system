@@ -55,7 +55,6 @@ export const EmployeeHistory = ({ userId, name, setName }) => {
                         {
                             backendData && backendData.length > 0 && backendData.map((record, index) => {
                                 const startTime = new Date(record.startTime);
-                                setName(record.name);
                                 if (record.endTime === null) {
                                     var endTime = "";
                                 } else {

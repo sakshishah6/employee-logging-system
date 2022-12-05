@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import React, { useState, useEffect } from 'react';
 
 export const Employee = ({ userId, name }) => {
+
     let navigate = useNavigate();
     const navigateToHistory = () => {
         let path = `/employee-history`;
