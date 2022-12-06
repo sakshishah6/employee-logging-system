@@ -1,28 +1,30 @@
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
-import { React, useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import { React, useState, useEffect, useReducer } from 'react';
 
-export const Manager = () => {
+export const Manager = ({ userId, name, setName }) => {
 
     const [backendData, setBackendData] = useState([{}])
     //const [statusButtonsState, disableStatusButtons] = useState(true)
     var shown = true;
-    var managerId = 345123;
 
+    const [reducerValue, forceUpdate] = useReducer(x => x + 1);
+    
     useEffect(() => {
         if (shown) {
             shown = false;
-            fetch(`http://localhost:3002/api/employee/manager/${managerId}`).then(
+            fetch(`http://localhost:3002/api/employee/manager/${userId}`).then(
                 response => response.json()
             ).then(
                 data => {
-                    console.log(data)
                     setBackendData(data)
-                }
+                },
+                forceUpdate()
             )
         }
-    }, []);
+    });
+
+
 
     const handleAccepted = (uniqueID) => {
         console.log("Accepted")
@@ -33,9 +35,8 @@ export const Manager = () => {
             .then(
                 data => {
                     setBackendData(data)
-                    console.log(data)
                 },
-                window.location.reload()
+                //forceUpdate()
             )
     }
 
@@ -48,32 +49,42 @@ export const Manager = () => {
             .then(
                 data => {
                     setBackendData(data)
-                    console.log(data)
                 },
-                window.location.reload()
+                
             )
     }
 
-    function modifyForm(uniqueID) {
+    function modifyForm() {
         document.getElementById("modify-form").style.visibility = "visible";
     }
 
     const handleModified = () => {
-        document.getElementById("modify-form").style.visibility = "visible";
         var uniqueid = document.getElementById("uniqueid").value;
         var starttime = document.getElementById("starttime").value.toLocaleString();
         var endtime = document.getElementById("endtime").value.toLocaleString();
         var shifttype = document.getElementById("shifttype").value;
+        document.getElementById("modify-form").style.visibility = "hidden";
         fetch(`http://localhost:3002/api/employee/status/Modified/${uniqueid}/${starttime}/${endtime}/${shifttype}`).then(
             response => response.json()
         )
             .then(
                 data => {
                     setBackendData(data)
-                    console.log(data)
-                }
+                },
+                forceUpdate()
             )
     }
+
+    useEffect(() => {
+        fetch(`http://localhost:3002/api/username/${userId}`)
+        .then(response => response.json())
+        .then(
+            data => {
+                setBackendData(data)
+            },
+            
+        )
+    })
 
     const [dt, setDt] = useState(new Date().toLocaleString());
     useEffect(() => {
@@ -82,22 +93,16 @@ export const Manager = () => {
         }, 1000)
         return () => clearInterval(secTimer);
     }, []);
-
-    let navigate = useNavigate();
-    const navigateToLogoutPage = () => {
-        let path = `/logout`;
-        navigate(path);
-    };
-
+    
     return (
         <div className="manager">
             <h1>Manager Dashboard</h1>
             <br></br>
-            <p><strong>Name: Steve</strong> </p>
-            <p><strong>Manager ID: 345123</strong> </p>
+            <p><strong>Name:</strong> {name}</p>
+            <p><strong>Manager ID:</strong> {userId}</p>
             <p><strong>Current Date:</strong> {dt}</p>
             <br></br>
-            <Table striped bordered hover variant="dark">
+            <Table className="emp-table" striped bordered hover variant="dark">
                 <thead>
                     <tr>
                         <th>Record #</th>
@@ -114,6 +119,7 @@ export const Manager = () => {
                 <tbody>
                     {
                         backendData && backendData.length > 0 && backendData.map((record, index) => {
+                            //setName(record.name);
                             const startTime = new Date(record.startTime);
                             if (record.endTime === null) {
                                 var endTime = "";
@@ -141,7 +147,7 @@ export const Manager = () => {
                                     <td>
                                         <Button variant="outline-success" onClick={() => handleAccepted(record.uniqueID)}>Accept</Button>{' '}
                                         <Button variant="outline-danger" onClick={() => handleRejected(record.uniqueID)}>Reject</Button>{' '}
-                                        <Button variant="outline-primary" onClick={() => { modifyForm(record.uniqueID); }}>Modify</Button>
+                                        <Button variant="outline-primary" onClick={() => modifyForm()}>Modify</Button>
                                     </td>
                                 </tr>
                             );
@@ -166,11 +172,8 @@ export const Manager = () => {
                         <option value="Break">Break</option>
                     </select>
                     <br></br>
-                    <button id="modify-btn" onClick={handleModified}>Submit</button>
+                    <button id="modify-btn" type="button" onClick={handleModified}>Submit</button>
                 </form>
-            </div>
-            <div id="back">
-                <Button id="logout-btn" variant="light" onClick={navigateToLogoutPage} size="sm">Logout</Button>
             </div>
         </div>
     );

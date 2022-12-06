@@ -4,10 +4,10 @@ import Button from 'react-bootstrap/Button';
 export const Logout = () => {
     let navigate = useNavigate(); 
     const navigateToLoginPage = () =>{ 
-        let path = `/`; 
+        let path = `/`;
         navigate(path);
+        window.location.reload();
     };
-    // disable all navbar buttons but log in here
 
     return (
         <div className="logout">

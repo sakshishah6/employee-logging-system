@@ -84,15 +84,14 @@ app.get("/api/employee/status/Modified/*/*/*/*", (req,res) => {
 
     var finalStartDateTime = new Date(startTimeVal)
     finalStartDateTime = finalStartDateTime - (finalStartDateTime.getTimezoneOffset() * 60000);
-    var finalStartDateTime = new Date(finalStartDateTime).toISOString().replace('T', ' ').replace('Z', '');
+    finalStartDateTime = new Date(finalStartDateTime).toISOString().replace('T', ' ').replace('Z', '');
 
     var finalEndDateTime = new Date(endTimeVal)
     finalEndDateTime = finalEndDateTime - (finalEndDateTime.getTimezoneOffset() * 60000);
-    var finalEndDateTime = new Date(finalEndDateTime).toISOString().replace('T', ' ').replace('Z', '');
+    finalEndDateTime = new Date(finalEndDateTime).toISOString().replace('T', ' ').replace('Z', '');
 
-    
-    const sqlUpdate = `UPDATE employee_time SET type='${shiftTypeVal}',startTime='${finalStartDateTime}', endTime='${finalEndDateTime}',status='Modified' WHERE uniqueID=${uniqueIdVal};`
-//, startTime='${startTimeVal}', endTime='${endTimeVal}', type='${shiftTypeVal}' 
+    const sqlUpdate = `UPDATE employee_time SET type='${shiftTypeVal}', startTime='${finalStartDateTime}', endTime='${finalEndDateTime}',status='Modified' WHERE uniqueID=${uniqueIdVal};`
+
     db.query(sqlUpdate, (err,result) => {
         if(err) throw err
         res.send(result)
@@ -121,41 +120,59 @@ app.get("/api/startShiftBreak/*/*/*", (req,res) => {
 });
 
 
-// When start shift or break pressed, updates record and ends shift
+// When end shift or break pressed, updates record and ends shift
 app.get("/api/endShiftBreak/*", (req,res) => {
     const valuesArray = req.originalUrl.split("/");
     const userIdVal = valuesArray[3];
 
     var endDateTime = new Date();
     endDateTime = endDateTime - (endDateTime.getTimezoneOffset() * 60000);
-    finalEndDateTime = new Date(endDateTime).toISOString().replace('T', ' ').replace('Z', '');
+    var finalEndDateTime = new Date(endDateTime).toISOString().replace('T', ' ').replace('Z', '');
 
-        const sqlUpdate = `UPDATE employee_time SET endTime='${finalEndDateTime}' WHERE userID=${userIdVal} and endTime IS NULL;`
+    const sqlUpdate = `UPDATE employee_time SET endTime='${finalEndDateTime}' WHERE userID=${userIdVal} and endTime IS NULL;`
 
-        db.query(sqlUpdate, (err,result) => {
-            if(err) throw err
-            console.log(result)
-            res.send(result)
-        })
-    });
-
-
+    db.query(sqlUpdate, (err,result) => {
+        if(err) throw err
+        res.send(result)
+    })
+});
 
 
 // Gets a specific employees records for employee dashboard
 app.get("/api/employeeSpecific/*", (req,res) => {
     const valuesArray = req.originalUrl.split("/");
     const userId = valuesArray[3];
-     const sqlInsert = `SELECT * FROM employee_time WHERE userID=${userId};`
-    // const sqlInsert = `DELETE FROM employee_time WHERE userID=${userId} AND startTime IS NOT NULL AND endTime IS NULL;`
-    // const sqlInsert = `DELETE FROM employee_time WHERE username='Joe';`
-    // const sqlInsert = `DELETE FROM employee_time WHERE userID=${userId};`
-
+    const sqlInsert = `SELECT * FROM employee_time WHERE userID=${userId};`
 
     db.query(sqlInsert, (err,result) => {
         res.send(result)
     })
 });
+
+
+// Gets a specific employee's name to display on page
+app.get("/api/username/*", (req,res) => {
+    const valuesArray = req.originalUrl.split("/");
+    const userId = valuesArray[3];
+    const sql = `SELECT name FROM user WHERE username=${userId};`
+
+    db.query(sql, (err,result) => {
+        res.send(result)
+    })
+});
+
+
+// Gets the type of employee to disable nav links
+app.get("/api/userType/*", (req,res) => {
+    const valuesArray = req.originalUrl.split("/");
+    const userId = valuesArray[3];
+    const sql = `SELECT userType FROM user WHERE username=${userId};`
+
+    db.query(sql, (err,result) => {
+        res.send(result)
+    })
+});
+
 
 // For time punches, checks data to see which buttons to disable
 app.get("/api/endTimeNull/*", (req,res) => {
@@ -174,7 +191,8 @@ app.get('/api/register/*/*/*/*', (req, res)=> {
     const password = valuesArray[4];
     const name = valuesArray[5];
     const userType = valuesArray[6];
-    const sqlInsert = `INSERT INTO user (username, password,name, usertype) VALUES (${username}, '${password}', '${name}', '${userType}')`
+    
+    const sqlInsert = `INSERT INTO user (username, password, name, usertype) VALUES (${username}, '${password}', '${name}', '${userType}')`
 
     db.query(sqlInsert, (err, result) => {
         if (err) throw err    
@@ -195,7 +213,7 @@ app.get('/api/login/*/*', (req, res)=> {
     const password = valuesArray[4];
 
     db.query(`SELECT * FROM user WHERE username=${username} AND password='${password}';`, (err, result) => {
-        if (err) throw err    
+        if (err) throw err
         res.send(result) 
     }); 
 });

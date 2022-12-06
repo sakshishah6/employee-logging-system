@@ -1,4 +1,5 @@
 import ReactDOM from "react-dom/client";
+import { React, useState } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home } from './views/Home';
 import { Login } from './views/Login';
@@ -15,27 +16,28 @@ import { Register } from "./views/Register";
 import Navbar1 from "./components/Navbar";
 
 export default function App() {
+  const [userId, setUserId] = useState(null);
+  const [name, setName] = useState(null);
+
   return (
     <div className="main">
-      <div>
-        <Navbar1 />
-      </div>
       <div id="landing-page">
         <BrowserRouter>
+          <Navbar1 />
           <Routes>
             <Route path="/">
-              <Route index element={<Login />} />
-              <Route path="home" element={<Home />} />
-              <Route path="manager" element={<Manager />} />
-              <Route path="employee" element={<Employee />} />
-              <Route path="register" element={<Register />} />
-              <Route path="employee-history" element={<EmployeeHistory />} />
-              <Route path="employee-time-punches" element={<EmployeeTimePunches />} />
-              <Route path="employee-start-shift" element={<EmployeeStartShift />} />
-              <Route path="employee-end-shift" element={<EmployeeEndShift />} />
-              <Route path="employee-start-break" element={<EmployeeStartBreak />} />
-              <Route path="employee-end-break" element={<EmployeeEndBreak />} />
-              <Route path="logout" element={<Logout />} />
+              <Route index element={<Login userId={userId} setUserId={setUserId} />} />
+              <Route path="register" element={<Register name={name} />} />
+              <Route path="home" element={<Home userId={userId} name={name} />} />
+              <Route path="manager" element={<Manager userId={userId} name={name} setName={setName} />} />
+              <Route path="employee" element={<Employee userId={userId} name={name} />} />
+              <Route path="employee-history" element={<EmployeeHistory userId={userId} name={name} />} />
+              <Route path="employee-time-punches" element={<EmployeeTimePunches userId={userId} name={name} />} />
+              <Route path="employee-start-shift" element={<EmployeeStartShift userId={userId} name={name} />} />
+              <Route path="employee-end-shift" element={<EmployeeEndShift userId={userId} name={name} />} />
+              <Route path="employee-start-break" element={<EmployeeStartBreak userId={userId} name={name} />} />
+              <Route path="employee-end-break" element={<EmployeeEndBreak userId={userId} name={name} />} />
+              <Route path="logout" element={<Logout userId={userId} />} />
             </Route>
           </Routes>
         </BrowserRouter>

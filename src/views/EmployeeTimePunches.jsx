@@ -2,17 +2,15 @@ import { useNavigate } from "react-router-dom";
 import { React, useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 
-export const EmployeeTimePunches = () => {
+export const EmployeeTimePunches = ({ userId, name }) => {
     // call db and based on that render this
     const [isShiftStarted, setShiftStarted] = useState(false)
     const [isBreakStarted, setBreakStarted] = useState(false)
     const [isShiftEnded, setShiftEnded] = useState(false)
     const [isBreakEnded, setBreakEnded] = useState(false)
 
-    const employeeID = 345123;
-
     useEffect(() => {
-        fetch(`http://localhost:3002/api/endTimeNull/${employeeID}`).then(
+        fetch(`http://localhost:3002/api/endTimeNull/${userId}`).then(
             response => response.json()
         ).then(
             data => {
@@ -34,7 +32,7 @@ export const EmployeeTimePunches = () => {
                 }
             }
         )
-    }, [])
+    })
 
     const [dt, setDt] = useState(new Date().toLocaleString());
     useEffect(() => {
@@ -43,8 +41,8 @@ export const EmployeeTimePunches = () => {
         }, 1000)
         return () => clearInterval(secTimer);
     }, []);
-    let navigate = useNavigate();
 
+    let navigate = useNavigate();
     const navigateToStartShift = () => {
         let path = `/employee-start-shift`;
         navigate(path);
@@ -64,16 +62,13 @@ export const EmployeeTimePunches = () => {
     const navigateBack = () => {
         navigate(-1);
     };
-    const navigateToLogoutPage = () => {
-        let path = `/logout`;
-        navigate(path);
-    };
+
     return (
         <div className="employee">
             <h1>Employee Time Punches</h1>
             <br></br>
-            <p><strong>Name:</strong> </p>
-            <p><strong>Employee ID:</strong> </p>
+            <p><strong>Name:</strong> {name}</p>
+            <p><strong>Employee ID:</strong> {userId}</p>
             <p><strong>Current Date:</strong> {dt}</p>
             <br></br><br></br>
             <div id="emp">
@@ -91,8 +86,7 @@ export const EmployeeTimePunches = () => {
                 </div>
             </div>
             <div id="back">
-                <Button id="back-btn" variant="light" onClick={navigateBack} size="sm">Back</Button>
-                <Button id="logout-btn" variant="light" onClick={navigateToLogoutPage} size="sm">Logout</Button>
+                <Button id="back-btn" variant="light" onClick={navigateBack} size="sm">Back to Dashboard</Button>
             </div>
         </div>
     )
