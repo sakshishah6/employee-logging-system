@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import React, { useState, useEffect } from 'react';
 
-export const Employee = ({ userId, name }) => {
+export const Employee = ({ userId, name, setName }) => {
 
     let navigate = useNavigate();
     const navigateToHistory = () => {
@@ -20,6 +20,27 @@ export const Employee = ({ userId, name }) => {
         }, 1000)
         return () => clearInterval(secTimer);
     }, []);
+
+    const [backendData, setBackendData] = useState([{}]);
+    useEffect(() => {
+        fetch(`http://localhost:3002/api/username/${userId}`)
+        .then(response => response.json())
+        .then(
+            data => {
+                setBackendData(data)
+                let n = backendData.map(
+                    function(element){
+                        let arr = `${element.name}`;
+                        return arr;
+                    }
+                )
+                setName(n[0]);
+            },
+            
+        )
+    }, []);
+
+    
 
     return (
         <div className="employee">

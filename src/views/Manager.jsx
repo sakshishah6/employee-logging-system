@@ -2,7 +2,7 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import { React, useState, useEffect, useReducer } from 'react';
 
-export const Manager = ({ userId, name, setName }) => {
+export const Manager = ({ userId, name }) => {
 
     const [backendData, setBackendData] = useState([{}])
     //const [statusButtonsState, disableStatusButtons] = useState(true)
@@ -75,17 +75,6 @@ export const Manager = ({ userId, name, setName }) => {
             )
     }
 
-    useEffect(() => {
-        fetch(`http://localhost:3002/api/username/${userId}`)
-        .then(response => response.json())
-        .then(
-            data => {
-                setBackendData(data)
-            },
-            
-        )
-    })
-
     const [dt, setDt] = useState(new Date().toLocaleString());
     useEffect(() => {
         let secTimer = setInterval(() => {
@@ -102,7 +91,7 @@ export const Manager = ({ userId, name, setName }) => {
             <p><strong>Manager ID:</strong> {userId}</p>
             <p><strong>Current Date:</strong> {dt}</p>
             <br></br>
-            <Table className="emp-table" striped bordered hover variant="dark">
+            <Table striped bordered hover variant="dark">
                 <thead>
                     <tr>
                         <th>Record #</th>
