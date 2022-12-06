@@ -54,7 +54,7 @@ export const Manager = ({ userId, name, setName }) => {
             )
     }
 
-    function modifyForm(uniqueID) {
+    function modifyForm() {
         document.getElementById("modify-form").style.visibility = "visible";
     }
 
@@ -71,7 +71,7 @@ export const Manager = ({ userId, name, setName }) => {
                 data => {
                     setBackendData(data)
                 },
-                //forceUpdate()
+                forceUpdate()
             )
     }
 
@@ -147,7 +147,7 @@ export const Manager = ({ userId, name, setName }) => {
                                     <td>
                                         <Button variant="outline-success" onClick={() => handleAccepted(record.uniqueID)}>Accept</Button>{' '}
                                         <Button variant="outline-danger" onClick={() => handleRejected(record.uniqueID)}>Reject</Button>{' '}
-                                        <Button variant="outline-primary" onClick={() => { modifyForm(record.uniqueID); }}>Modify</Button>
+                                        <Button variant="outline-primary" onClick={() => modifyForm()}>Modify</Button>
                                     </td>
                                 </tr>
                             );
@@ -172,7 +172,7 @@ export const Manager = ({ userId, name, setName }) => {
                         <option value="Break">Break</option>
                     </select>
                     <br></br>
-                    <button id="modify-btn" onClick={handleModified}>Submit</button>
+                    <button id="modify-btn" type="button" onClick={handleModified}>Submit</button>
                 </form>
             </div>
         </div>
