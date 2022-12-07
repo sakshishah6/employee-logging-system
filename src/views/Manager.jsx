@@ -2,14 +2,17 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import { React, useState, useEffect, useReducer } from 'react';
 
-export const Manager = ({ userId, name }) => {
+export const Manager = ({ userId, name, isManager }) => {
 
     const [backendData, setBackendData] = useState([{}])
     //const [statusButtonsState, disableStatusButtons] = useState(true)
     var shown = true;
 
+    var hoursWorked = 0;
+    var hoursBreak = 0;
+
     const [reducerValue, forceUpdate] = useReducer(x => x + 1);
-    
+
     useEffect(() => {
         if (shown) {
             shown = false;
@@ -50,7 +53,7 @@ export const Manager = ({ userId, name }) => {
                 data => {
                     setBackendData(data)
                 },
-                
+
             )
     }
 
@@ -82,7 +85,7 @@ export const Manager = ({ userId, name }) => {
         }, 1000)
         return () => clearInterval(secTimer);
     }, []);
-    
+
     return (
         <div className="manager">
             <h1>Manager Dashboard</h1>
@@ -107,7 +110,7 @@ export const Manager = ({ userId, name }) => {
                 </thead>
                 <tbody>
                     {
-                        backendData && backendData.length > 0 && backendData.map((record, index) => {
+                        isManager && backendData && backendData.length > 0 && backendData.map((record, index) => {
                             //setName(record.name);
                             const startTime = new Date(record.startTime);
                             if (record.endTime === null) {
@@ -123,6 +126,14 @@ export const Manager = ({ userId, name }) => {
                                 hours /= (60 * 60)
                                 hours = hours.toFixed(2);
                             }
+
+                            if (record.type === 'Work') {
+                                hoursWorked += Number(hours);
+                            }
+                            if (record.type === 'Break') {
+                                hoursBreak += Number(hours);
+                            }
+
                             return (
                                 <tr key={index}>
                                     <td>{record.uniqueID}</td>
@@ -139,11 +150,18 @@ export const Manager = ({ userId, name }) => {
                                         <Button variant="outline-primary" onClick={() => modifyForm()}>Modify</Button>
                                     </td>
                                 </tr>
+
                             );
                         })
                     }
                 </tbody>
             </Table>
+            <div>
+                <label >Total Hours Worked: {hoursWorked}</label>
+            </div>
+            <div>
+                <label >Total Hours on Break: {hoursBreak}</label>
+            </div>
             <div id="modify-form">
                 <form>
                     <label id="manager-label"> Record #: </label>

@@ -32,7 +32,7 @@ export const Navbar1 = () => {
     setManagerPage(true);
     setLogoutPage(false);
   }
-  
+
   return (
     <Navbar className="navbar" bg="dark" variant="dark">
       <Container>

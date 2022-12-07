@@ -1,14 +1,12 @@
 import { React, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { Navbar1 } from '../components/Navbar';
 
-
-export const Login = ({userId, setUserId}) => {
+export const Login = ({ userId, setUserId, setName, setManager }) => {
     //const [username, setUsername] = useState();
     const [password, setPassword] = useState();
 
     var [inputStatus, setInputStatus] = useState();
-    //const [backendData, setBackendData] = useState([{}])
+    const [backendData, setBackendData] = useState([{}])
 
     const SignIn = (e) => {
         e.preventDefault();
@@ -17,10 +15,14 @@ export const Login = ({userId, setUserId}) => {
                 response => response.json()
             ).then(
                 data => {
-                    //setBackendData(data);
                     if (JSON.stringify(data) === '[]') {
                         setInputStatus("Incorrect User ID or Password");
                     } else {
+                        setName(data[0].name);
+                        console.log(data[0].type);
+                        if (data[0].userType === 'Manager') {
+                            setManager(true);
+                        }
                         setInputStatus("");
                         navigateToHome();
                     }

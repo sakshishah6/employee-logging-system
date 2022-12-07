@@ -114,7 +114,6 @@ app.get("/api/startShiftBreak/*/*/*", (req,res) => {
 
     const sqlInsert = `INSERT INTO employee_time (userID, username, type, startTime, endTime, time, status) VALUES (${userIdVal}, '${usernameVal}', '${shiftTypeVal}','${finalStartDateTime}', null, 0, "Pending");`
     db.query(sqlInsert, (err,result) => {
-        console.log(err)
         res.send(result)
     })
 });
@@ -217,6 +216,21 @@ app.get('/api/login/*/*', (req, res)=> {
         res.send(result) 
     }); 
 });
+
+app.get('/api/delete/*', (req, res)=> {
+    const valuesArray = req.originalUrl.split("/");
+    const username = valuesArray[3];
+    
+     const sqlInsert = `DELETE FROM employee_time WHERE username='null' OR username='undefined';`
+    // const sqlInsert = `SELECT * FROM employee_time WHERE username='null' OR username='undefined'`
+
+
+    db.query(sqlInsert, (err, result) => {
+        if (err) throw err
+        res.send(result) 
+    }); 
+});
+
 
 
 //const sqlInsert = `DELETE FROM employee_time WHERE userID=${userId} AND startTime IS NOT NULL AND endTime IS NULL;`

@@ -6,6 +6,9 @@ import { React, useState, useEffect } from 'react';
 
 export const EmployeeHistory = ({ userId, name, setName }) => {
 
+    var hoursWorked = 0;
+    var hoursBreak = 0;
+
     const [backendData, setBackendData] = useState([{}])
     useEffect(() => {
         fetch(`http://localhost:3002/api/employeeSpecific/${userId}`).then(
@@ -29,7 +32,7 @@ export const EmployeeHistory = ({ userId, name, setName }) => {
     const navigateBack = () => {
         navigate(-1);
     };
-    
+
     return (
         <div className="employee">
             <h1>Employee Dashboard</h1>
@@ -69,6 +72,11 @@ export const EmployeeHistory = ({ userId, name, setName }) => {
                                     hours /= (60 * 60)
                                     hours = hours.toFixed(2);
                                 }
+                                if (record.type === 'Work') {
+                                    hoursWorked += Number(hours);
+                                } else {
+                                    hoursBreak += Number(hours);
+                                }
 
                                 return (
                                     <tr key={index}>
@@ -85,6 +93,12 @@ export const EmployeeHistory = ({ userId, name, setName }) => {
                         }
                     </tbody>
                 </Table>
+            </div>
+            <div>
+                <label >Total Hours Worked: {hoursWorked}</label>
+            </div>
+            <div>
+                <label >Total Hours on Break: {hoursBreak}</label>
             </div>
             <div id="back">
                 <Button id="back-btn" variant="light" onClick={navigateBack} size="sm">Back to Dashboard</Button>
