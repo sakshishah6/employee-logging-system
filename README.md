@@ -12,7 +12,9 @@ Our app is user-friendly and intuitive, with an easy-to-use interface that makes
 
 1. Install node.js from `https://nodejs.org/en/download`.
 2. Clone the repository to your local machine.
-3. Navigate to the project directory and type `npm start` in the terminal to start the application.
-4. In another terminal window, navigate to the `server` folder, and enter `node index.js` to start the server.
-5. In your browser, the app is ready to use.
+3. From the terminal, navigate to the project directory.
+4. Run `npm install`.
+5. Run `npm run build`.
+6. Run `serve -s build`.
+7. Click on the local address provided to run the app in your browser.
 
